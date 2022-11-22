@@ -1,6 +1,8 @@
 import { authService } from './firebase.js';
 import { handleLocation } from './router.js';
 import { getSearchList, autocomp } from './search.js';
+import { postInput } from "./postcreat.js";
+
 
 window.addEventListener('hashchange', handleLocation);
 
@@ -14,5 +16,25 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+
+
+// onclick, onchange, onsubmit 이벤트 핸들러 리스트
+
+// 자동 완성 기능 
 window.getSearchList = getSearchList;
 window.autocomp = autocomp;
+
+// POST 작성 기능
+window.postInput = postInput;
+
+// window.onToggle = onToggle;
+// window.handleAuth = handleAuth;
+// window.goToProfile = goToProfile;
+// window.socialLogin = socialLogin;
+// window.logout = logout;
+// window.onFileChange = onFileChange;
+// window.changeProfile = changeProfile;
+// window.save_comment = save_comment;
+// window.update_comment = update_comment;
+// window.onEditing = onEditing;
+// window.delete_comment = delete_comment;
