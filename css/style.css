@@ -221,26 +221,16 @@ header {
   width: 400px;
 }
 /* 자동완성 css */
-/* .ui-corner-all {
-  -moz-border-radius: 4px 4px 4px 4px;
-} */
+
 .ui-widget.ui-widget-content {
   border: none;
-}
-.ul-menu {
-  list-style: none;
-  background-color: #1c92f9;
 }
 .ui-menu-item-wrapper {
   border-radius: 20px;
   color: white;
   background-color: #94acbf;
 }
-.ui-menu-item-wrapper:hover {
-  background-color: #1c92f9;
-  outline: none;
-  border: none;
-}
+
 /* main style */
 
 .left-comp,
