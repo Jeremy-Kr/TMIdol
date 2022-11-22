@@ -117,7 +117,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -197,17 +197,53 @@ header {
   font-weight: 700;
 }
 
-.search > input {
+#searchvalue {
   border: none;
-  width: 190px;
+  width: 200px;
+  outline: none;
 }
 
 .search {
   display: flex;
   border: 1px solid #000;
-  width: fit-content;
+  width: 230px;
   padding: 0.5rem;
   border-radius: 1.1rem;
+  transition: 0.5s;
+}
+.search:hover {
+  width: 85%;
+}
+/* 자동완성 css */
+/* .ui-corner-all {
+  -moz-border-radius: 4px 4px 4px 4px;
+} */
+.ui-widget.ui-widget-content {
+  border: none;
+}
+.ul-menu {
+  list-style: none;
+  background-color: #1c92f9;
+}
+.ui-menu-item-wrapper {
+  border-radius: 20px;
+  color: white;
+  background-color: #94acbf;
+}
+.ui-menu-item-wrapper:hover {
+  background-color: #1c92f9;
+  outline: none;
+  border: none;
+}
+.ui-menu-item-wrapper:focus {
+  background-color: #222222;
+}
+.ui-state-active {
+  color: rgb(122, 22, 176);
+  background-color: none;
+}
+.ui-helper-hidden-accessible {
+  color: #000;
 }
 
 /* main style */
