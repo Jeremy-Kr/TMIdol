@@ -1,13 +1,13 @@
-import { authService } from './firebase.js';
-import { handleLocation } from './router.js';
-import { getSearchList, autocomp } from './search.js';
+import { authService } from "./firebase.js";
+import { handleLocation } from "./router.js";
+import { getSearchList, autocomp } from "./search.js";
 import { postInput } from "./postcreat.js";
+import { openModal, closeModal } from "./sub.js";
 
-
-window.addEventListener('hashchange', handleLocation);
+window.addEventListener("hashchange", handleLocation);
 
 // 첫 랜딩 또는 새로고침 시 handleLocation 실행하여 화면 변경
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   // Firebase 연결상태를 감시
   authService.onAuthStateChanged((user) => {
     // Firebase 연결되면 화면 표시
@@ -16,16 +16,18 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
-
 // onclick, onchange, onsubmit 이벤트 핸들러 리스트
 
-// 자동 완성 기능 
+// 자동 완성 기능
 window.getSearchList = getSearchList;
 window.autocomp = autocomp;
 
 // POST 작성 기능
 window.postInput = postInput;
+
+// modal
+window.openModal = openModal;
+window.closeModal = closeModal;
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;

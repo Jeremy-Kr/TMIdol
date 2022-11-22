@@ -26,11 +26,36 @@
 <div class="grid-container">
   <aside class="left-comp">
     <div class="sign-panel">
-      <div class="buttons">
+      <!-- <div class="buttons">
         <button>로그인</button>
         <button>회원가입</button>
-      </div>
+      </div> -->
       <p>로그인을 통해 아이돌 팬들과 소통해보세요!</p>
+    </div>
+    <div class="login-btn">
+      <button href="#" onclick="openModal()">로그인</button>
+      <div id="modal-notice" class="modal">
+        <div class="modal-content">
+          <a href="#" class="btn-close" onclick="closeModal()">x</a>
+          <h2>회원 가입</h2>
+          <div>이메일 :<input type="email" /></div>
+          <div>비밀번호 :<input type="password" /></div>
+          <button>회원가입</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="signin-btn">
+      <button href="#" onclick="openModal()">회원가입</button>
+      <div id="modal-notice" class="modal">
+        <div class="modal-content">
+          <a href="#" class="btn-close" onclick="closeModal()">x</a>
+          <h2>회원 가입</h2>
+          <div>이메일 :<input type="email" /></div>
+          <div>비밀번호 :<input type="password" /></div>
+          <button>회원가입</button>
+        </div>
+      </div>
     </div>
   </aside>
   <main class="main-comp">
