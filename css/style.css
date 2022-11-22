@@ -211,8 +211,10 @@ header {
   border-radius: 1.1rem;
   transition: 0.5s;
 }
-.search:hover {
-  width: 85%;
+.search:focus-within {
+  /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
+  /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
+  width: 400px;
 }
 /* 자동완성 css */
 /* .ui-corner-all {
