@@ -1,5 +1,6 @@
 import { authService } from "./firebase.js";
 import { handleLocation } from "./router.js";
+import { postInput } from "./postcreat.js";
 
 window.addEventListener("hashchange", handleLocation);
 
@@ -26,6 +27,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // onclick, onchange, onsubmit 이벤트 핸들러 리스트
+
+// POST 작성 기능
+window.postInput = postInput;
+
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;
 // window.goToProfile = goToProfile;
