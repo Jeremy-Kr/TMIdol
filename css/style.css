@@ -418,3 +418,7 @@ header {
 .ent-news-item {
   margin: 0.5rem;
 }
+
+.post-blue {
+  background-color: #1c92f9;
+}
