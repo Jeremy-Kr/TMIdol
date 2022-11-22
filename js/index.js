@@ -1,6 +1,7 @@
 import { authService } from "./firebase.js";
 import { handleLocation } from "./router.js";
 import { postInput } from "./postcreat.js";
+import { onFileChange } from "./utils.js";
 
 window.addEventListener("hashchange", handleLocation);
 
@@ -30,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // POST 작성 기능
 window.postInput = postInput;
+
+// 사진 업로드 기능
+window.onFileChange = onFileChange;
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;

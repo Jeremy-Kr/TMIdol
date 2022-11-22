@@ -1,7 +1,8 @@
-const postSubmit = () => {
-  // todo: postSubmit 함수로 post db에 저장하기.
+import { onFileChange } from "./utils.js";
+
+function postSubmit() {
   console.log("postSubmit 작성하기");
-};
+}
 
 function postInput(event) {
   if (window.location.hash === "") {
@@ -30,6 +31,7 @@ function postInput(event) {
     postImageInput.type = "file";
     postImageInput.className = "post-image-input";
     postImageInput.accept = "images/*";
+    postImageInput.addEventListener("change", onFileChange);
 
     const postArtistTagSelectorLabel = document.createElement("label");
     postArtistTagSelectorLabel.innerText = "아티스트 태그 선택";
@@ -38,7 +40,16 @@ function postInput(event) {
     postArtistTagSelector.id = "artistTag";
     postArtistTagSelector.className = "post-selects-artist-tag";
 
-    const artists = ["BTS", "헬로비너스", "프로미스나인", "LESSERAFIM"];
+    const artists = [
+      "BTS",
+      "헬로비너스",
+      "프로미스나인",
+      "LESSERAFIM",
+      "세븐틴",
+      "몬스타엑스",
+      "에스파",
+      "소나무",
+    ];
 
     for (let i = 0; i < artists.length; i++) {
       const artistTagOption = document.createElement("option");
