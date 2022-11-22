@@ -121,7 +121,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -201,17 +201,34 @@ header {
   font-weight: 700;
 }
 
-.search > input {
+#searchvalue {
   border: none;
-  width: 190px;
+  width: 200px;
+  outline: none;
 }
 
 .search {
   display: flex;
   border: 1px solid #000;
-  width: fit-content;
+  width: 230px;
   padding: 0.5rem;
   border-radius: 1.1rem;
+  transition: 0.5s;
+}
+.search:focus-within {
+  /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
+  /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
+  width: 400px;
+}
+/* 자동완성 css */
+
+.ui-widget.ui-widget-content {
+  border: none;
+}
+.ui-menu-item-wrapper {
+  border-radius: 20px;
+  color: white;
+  background-color: #94acbf;
 }
 
 /* main style */

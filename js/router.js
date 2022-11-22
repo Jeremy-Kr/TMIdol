@@ -1,4 +1,4 @@
-import { authService } from "./firebase.js";
+import {authService} from "./firebase.js";
 
 const routes = {
   404: "/pages/404.html",
