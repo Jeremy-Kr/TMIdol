@@ -237,17 +237,6 @@ header {
   outline: none;
   border: none;
 }
-.ui-menu-item-wrapper:focus {
-  background-color: #222222;
-}
-.ui-state-active {
-  color: rgb(122, 22, 176);
-  background-color: none;
-}
-.ui-helper-hidden-accessible {
-  color: #000;
-}
-
 /* main style */
 
 .left-comp,
