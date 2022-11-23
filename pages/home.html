@@ -1,6 +1,6 @@
 <header class="header">
   <div class="header-grid">
-    <span class="title">TMI-DOL</span>
+    <a href="/" onclick="route(event)"><span class="title">TMI-DOL</span></a>
     <div class="search">
       <form onsubmit="getSearchList(event)">
         <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -34,43 +34,38 @@
     </div>
   </aside>
   <main class="main-comp">
-    <section class="post-container">
-      <div class="post-create">
-        <div class="post-create-profile-img-containor">
-          <img
-            src="./assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg"
-            alt=""
-            class="post-create-profile-img"
-          />
-        </div>
-        <div id="post-input-container">
-          <button onclick="postInput(event)" id="post-create-text-button">
-            어떤 이야기를 공유하실건가요?
-          </button>
-        </div>
+    <div class="post-create">
+      <div class="post-create-profile-img-containor">
+        <img
+          src="./assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg"
+          alt=""
+          class="post-create-profile-img"
+        />
       </div>
-    </section>
+      <div id="post-input-container">
+        <button onclick="postInput(event)" id="post-create-text-button">
+          어떤 이야기를 공유하실건가요?
+        </button>
+      </div>
+    </div>
+    <section class="post-container"></section>
   </main>
   <aside class="right-comp">
     <section class="populer">
       <p class="populer-title">실시간 인기글</p>
-      <ul class="populer-list">
-        <li class="populer-item">1 Lorem ipsum</li>
-        <li class="populer-item">2 Lorem ipsum</li>
-        <li class="populer-item">3 Lorem ipsum</li>
-        <li class="populer-item">4 Lorem ipsum</li>
-        <li class="populer-item">5 Lorem ipsum</li>
-      </ul>
+        <ul class="populer-list">
+          <li class="populer-item">1 Lorem ipsum</li>
+          <li class="populer-item">2 Lorem ipsum</li>
+          <li class="populer-item">3 Lorem ipsum</li>
+          <li class="populer-item">4 Lorem ipsum</li>
+          <li class="populer-item">5 Lorem ipsum</li>
+        </ul>
     </section>
     <section class="ent-news">
       <p class="ent-news-title">실시간 연예뉴스</p>
-      <ul class="ent-news-list">
-        <li class="ent-news-item">1 Lorem ipsum</li>
-        <li class="ent-news-item">2 Lorem ipsum</li>
-        <li class="ent-news-item">3 Lorem ipsum</li>
-        <li class="ent-news-item">4 Lorem ipsum</li>
-        <li class="ent-news-item">5 Lorem ipsum</li>
-      </ul>
+        <ul class="ent-news-list"></ul>
+        <li class="ent-news-item" style="background-color: black; color:white; border-radius : 40px; text-align: center" >불러오는 중입니다.......</li>
+      </div>
     </section>
   </aside>
 </div>
