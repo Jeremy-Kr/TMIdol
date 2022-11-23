@@ -221,7 +221,7 @@ header {
 .search:hover {
   /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
   /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
-  width: 400px;
+  width: 550px;
 }
 /* 자동완성 css */
 
@@ -277,6 +277,27 @@ header {
   height: 40px;
   width: 40px;
   border-radius: 50%;
+}
+
+/* 아티스트 정보 */
+.artist-info-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+
+  background-color: rgb(255, 252, 247);
+  border-radius: 20px;
+  margin: 30px 0 30px 0;
+  padding: 30px;
+  height: 160px;
+}
+.artist-info-img {
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+}
+.artist-info-text {
+  width: 400px;
 }
 
 #post-input-container {
