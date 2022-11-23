@@ -6,7 +6,7 @@ import {
   getDocs,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
 
-// 검색 
+// 검색
 export async function getSearchList(event) {
   event.preventDefault();
 
@@ -18,9 +18,7 @@ export async function getSearchList(event) {
 
   querySnapshot.forEach((doc) => {
     const searchObj = {
-
       id: doc.id, // artistTag : doc.data().artistTag, -> doc의 data()속에 있는 artistTag지정
-
       ...doc.data(),
     };
     searchObjList.push(searchObj);
@@ -28,16 +26,16 @@ export async function getSearchList(event) {
 
   const searchList = document.querySelector('.post-container');
   searchList.innerHTML = '';
-  const searchvalue = document.querySelector('#searchvalue');
+  const searchValue = document.querySelector('#search-value');
 
   searchObjList.forEach((searchObj) => {
-    const timestamp = searchObj.postDate + 9 * 60 * 60 * 1000;
-    const date = new Date(timestamp);
+    const timeStamp = searchObj.postDate + 9 * 60 * 60 * 1000;
+    const date = new Date(timeStamp);
     const time = date.toLocaleString('ko-KR', { timeZone: 'UTC' });
 
     const post = document.querySelector('.post-container');
-    if (searchvalue.value.toLowerCase() === searchObj.artistTag.toLowerCase()) {
-      const temp_html = `<article class="posts">
+    if (searchValue.value.toLowerCase() === searchObj.artistTag.toLowerCase()) {
+      const tempHTML = `<article class="posts">
 														<div class="post-header">
 															<img
 																src="./assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg"
@@ -75,14 +73,14 @@ export async function getSearchList(event) {
 														</div>
 													</article>`;
       const div = document.createElement('div');
-      div.innerHTML = temp_html;
+      div.innerHTML = tempHTML;
       post.appendChild(div);
     }
   });
 }
 
-// 자동완성 
-export async function autocomp() {
+// 자동완성
+export async function autoComp() {
   let artistNameList = [];
 
   const q = query(collection(dbService, 'posts'));
@@ -95,7 +93,7 @@ export async function autocomp() {
   const setArtistNameList = [...new Set(artistNameList)]; // 위치 주의 (forEach로 artistNameList에 값을 넣어야 제대로 작동하기에, forEach보다 아래에 위치해야한다.)
   $(function () {
     //화면 다 뜨면 시작
-    $('#searchvalue').autocomplete({
+    $('#search-value').autocomplete({
       //오토 컴플릿트 시작
       source: setArtistNameList, // source 는 자동 완성 대상
       // focus: function (event, ui) {
@@ -130,7 +128,6 @@ function listData() {
         const temp_html = `<li class="ent-news-item"><a href="${titleLink[i]['link']}" target="_blank">${titleLink[i]['title']}</a></li>`;
         $('.ent-news-list').append(temp_html);
       }
-      console.log('불러오기 성공');
     },
     beforeSend: function () {
       // 데이터 불러올 때 로딩이미지 추가하기
@@ -144,4 +141,3 @@ function listData() {
 
 setTimeout(listData, 3000);
 setInterval(listData, 30000);
-

@@ -131,11 +131,9 @@ table {
 
 /* index css */
 
-/* root background */
-#root {
+/* body background */
+body {
   background-color: #f5f5f7;
-  height: auto;
-  width: auto;
 }
 
 /* grid-container margin */
@@ -204,7 +202,7 @@ header {
   color: inherit; /* 링크의 색상 제거 */
 }
 
-#searchvalue {
+#search-value {
   border: none;
   width: 200px;
   outline: none;
@@ -221,7 +219,6 @@ header {
 
 .search:focus-within,
 .search:hover {
-
   /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
   /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
   width: 400px;
@@ -427,7 +424,7 @@ header {
 }
 
 .ent-news {
-  top: 290px;
+  top: 375px;
   width: 200px;
 }
 

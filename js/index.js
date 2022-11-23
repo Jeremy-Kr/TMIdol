@@ -1,16 +1,15 @@
-
-import { authService } from "./firebase.js";
-import { handleLocation } from "./router.js";
-import { getSearchList, autocomp } from "./search.js";
-import { postInput } from "./postcreat.js";
+import { authService } from './firebase.js';
+import { handleLocation } from './router.js';
+import { getSearchList, autoComp } from './search.js';
+import { postInput } from './postcreat.js';
 import {
   openLoginModal,
   closeLoginModal,
   openSignUpModal,
   closeSignUpModal,
-  submitsignup,
-  loginform,
-} from "./sub.js";
+  submitSignUp,
+  loginForm,
+} from './sub.js';
 
 window.addEventListener('hashchange', handleLocation);
 // document.addEventListener('DOMContentLoaded', listData);
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 자동 완성 기능
 window.getSearchList = getSearchList;
-window.autocomp = autocomp;
+window.autoComp = autoComp;
 
 // POST 작성 기능
 window.postInput = postInput;
@@ -38,8 +37,8 @@ window.openLoginModal = openLoginModal;
 window.closeLoginModal = closeLoginModal;
 window.openSignUpModal = openSignUpModal;
 window.closeSignUpModal = closeSignUpModal;
-window.submitsignup = submitsignup;
-window.loginform = loginform;
+window.submitSignUp = submitSignUp;
+window.loginForm = loginForm;
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;
