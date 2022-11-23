@@ -141,7 +141,7 @@ body {
   width: calc(100% - 32px);
   max-width: 1120px;
   margin: auto;
-  height: 200vh;
+  /* height: 200vh; */
 }
 
 /* header grid */

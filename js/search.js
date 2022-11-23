@@ -28,7 +28,9 @@ export async function getSearchList(event) {
     const info = document.querySelector('.artist-info');
     const artistText = await fetch(
       `/artistinfo/${searchObj.data()['artistTag']}.html`
-    ).then((data) => data.text());
+    )
+      .then((data) => data.text())
+      .catch((error) => console.log(error));
 
     if (
       searchValue.value.toLowerCase() ===
