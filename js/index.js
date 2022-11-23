@@ -1,8 +1,8 @@
 import { authService } from './firebase.js';
 import { handleLocation } from './router.js';
 import { getSearchList, autoComp } from './search.js';
-import { postInput } from './postcreat.js';
-import { onFileChange } from "./utils.js";
+import { postInput, postCreateBtn } from './postcreat.js';
+import { onFileChange } from './utils.js';
 import {
   openLoginModal,
   closeLoginModal,
@@ -12,16 +12,18 @@ import {
   loginForm,
 } from './sub.js';
 
-
 window.addEventListener('hashchange', handleLocation);
 // document.addEventListener('DOMContentLoaded', listData);
 // 첫 랜딩 또는 새로고침 시 handleLocation 실행하여 화면 변경
 document.addEventListener('DOMContentLoaded', function () {
   // Firebase 연결상태를 감시
-  authService.onAuthStateChanged((user) => {
+  authService.onAuthStateChanged(async (user) => {
     // Firebase 연결되면 화면 표시
-    handleLocation();
+    await handleLocation();
     const hash = window.location.hash;
+    if (user) {
+      postCreateBtn();
+    }
   });
 });
 
@@ -34,7 +36,6 @@ window.autoComp = autoComp;
 // POST 작성 기능
 window.postInput = postInput;
 
-
 // 사진 업로드 기능
 window.onFileChange = onFileChange;
 
@@ -45,7 +46,6 @@ window.openSignUpModal = openSignUpModal;
 window.closeSignUpModal = closeSignUpModal;
 window.submitSignUp = submitSignUp;
 window.loginForm = loginForm;
-
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;
