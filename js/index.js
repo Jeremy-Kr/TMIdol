@@ -1,3 +1,4 @@
+
 import { authService } from "./firebase.js";
 import { handleLocation } from "./router.js";
 import { getSearchList, autocomp } from "./search.js";
@@ -11,10 +12,10 @@ import {
   loginform,
 } from "./sub.js";
 
-window.addEventListener("hashchange", handleLocation);
-
+window.addEventListener('hashchange', handleLocation);
+// document.addEventListener('DOMContentLoaded', listData);
 // 첫 랜딩 또는 새로고침 시 handleLocation 실행하여 화면 변경
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   // Firebase 연결상태를 감시
   authService.onAuthStateChanged((user) => {
     // Firebase 연결되면 화면 표시

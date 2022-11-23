@@ -195,10 +195,13 @@ header {
   width: 100%;
 }
 
+.header-grid > a,
 .title {
   text-align: right;
   font-size: 1.5rem;
   font-weight: 700;
+  text-decoration: none; /* 링크의 밑줄 제거 */
+  color: inherit; /* 링크의 색상 제거 */
 }
 
 #searchvalue {
@@ -215,7 +218,10 @@ header {
   border-radius: 1.1rem;
   transition: 0.5s;
 }
-.search:focus-within {
+
+.search:focus-within,
+.search:hover {
+
   /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
   /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
   width: 400px;
@@ -422,6 +428,7 @@ header {
 
 .ent-news {
   top: 290px;
+  width: 200px;
 }
 
 .populer-title,
@@ -433,5 +440,35 @@ header {
 
 .populer-item,
 .ent-news-item {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  list-style: none;
+  border-bottom-right-radius: 13px;
+  border-top-left-radius: 13px;
+  padding: 10px;
+  color: rgb(26, 21, 21);
+  background-color: rgba(0, 0, 0, 0.152);
+  font-size: 13px;
   margin: 0.5rem;
+  transition: all 0.3s;
+}
+.populer-item:hover,
+.ent-news-item:hover {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: none;
+  background-color: black;
+  color: white;
+  z-index: 10000000000;
+}
+.populer-item > a,
+.ent-news-item > a {
+  text-decoration: none;
+  color: inherit;
+}
+.loading-text {
+  background-color: #000;
+  height: 200px;
 }
