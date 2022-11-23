@@ -2,7 +2,14 @@ import { authService } from "./firebase.js";
 import { handleLocation } from "./router.js";
 import { getSearchList, autocomp } from "./search.js";
 import { postInput } from "./postcreat.js";
-import { openModal, closeModal } from "./sub.js";
+import {
+  openLoginModal,
+  closeLoginModal,
+  openSignUpModal,
+  closeSignUpModal,
+  submitsignup,
+  loginform,
+} from "./sub.js";
 
 window.addEventListener("hashchange", handleLocation);
 
@@ -26,8 +33,12 @@ window.autocomp = autocomp;
 window.postInput = postInput;
 
 // modal
-window.openModal = openModal;
-window.closeModal = closeModal;
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
+window.openSignUpModal = openSignUpModal;
+window.closeSignUpModal = closeSignUpModal;
+window.submitsignup = submitsignup;
+window.loginform = loginform;
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;
