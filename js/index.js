@@ -1,39 +1,51 @@
-import { authService } from "./firebase.js";
-import { handleLocation } from "./router.js";
-import { postInput } from "./postcreat.js";
+import { authService } from './firebase.js';
+import { handleLocation } from './router.js';
+import { getSearchList, autoComp } from './search.js';
+import { postInput } from './postcreat.js';
 import { onFileChange } from "./utils.js";
+import {
+  openLoginModal,
+  closeLoginModal,
+  openSignUpModal,
+  closeSignUpModal,
+  submitSignUp,
+  loginForm,
+} from './sub.js';
 
-window.addEventListener("hashchange", handleLocation);
 
+window.addEventListener('hashchange', handleLocation);
+// document.addEventListener('DOMContentLoaded', listData);
 // 첫 랜딩 또는 새로고침 시 handleLocation 실행하여 화면 변경
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   // Firebase 연결상태를 감시
   authService.onAuthStateChanged((user) => {
     // Firebase 연결되면 화면 표시
     handleLocation();
     const hash = window.location.hash;
-    // if (user) {
-    //   // 로그인 상태이므로 항상 팬명록 화면으로 이동
-    //   if (hash === "") {
-    //     // 로그인 상태에서는 로그인 화면으로 되돌아갈 수 없게 설정
-    //     window.location.replace("#fanLog");
-    //   }
-    // } else {
-    //   // 로그아웃 상태이므로 로그인 화면으로 강제 이동
-    //   if (hash !== "") {
-    //     window.location.replace("");
-    //   }
-    // }
   });
 });
 
 // onclick, onchange, onsubmit 이벤트 핸들러 리스트
 
+// 자동 완성 기능
+window.getSearchList = getSearchList;
+window.autoComp = autoComp;
+
 // POST 작성 기능
 window.postInput = postInput;
 
+
 // 사진 업로드 기능
 window.onFileChange = onFileChange;
+
+// modal
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
+window.openSignUpModal = openSignUpModal;
+window.closeSignUpModal = closeSignUpModal;
+window.submitSignUp = submitSignUp;
+window.loginForm = loginForm;
+
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;

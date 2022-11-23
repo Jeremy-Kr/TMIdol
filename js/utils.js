@@ -1,3 +1,4 @@
+
 export const onFileChange = (event) => {
   const theFile = event.target.files[0]; // file 객체
   const reader = new FileReader();
@@ -8,3 +9,8 @@ export const onFileChange = (event) => {
     localStorage.setItem("imgDataUrl", imgDataUrl);
   };
 };
+
+export const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+export const pwRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
