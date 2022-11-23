@@ -9,7 +9,7 @@ import {
 // 검색
 export async function getSearchList(event) {
   event.preventDefault();
-
+  const searchValue = document.querySelector('#search-value');
   let searchObjList = [];
 
   const q = query(collection(dbService, 'posts'), orderBy('postDate', 'desc'));
@@ -23,12 +23,53 @@ export async function getSearchList(event) {
     };
     searchObjList.push(searchObj);
   });
+  //
+  querySnapshot.forEach(async (searchObj) => {
+    const info = document.querySelector('.artist-info');
+    const artistText = await fetch(
+      `/artistinfo/${searchObj.data()['artistTag']}.html`
+    ).then((data) => data.text());
 
+    if (
+      searchValue.value.toLowerCase() ===
+      searchObj.data()['artistTag'].toLowerCase()
+    ) {
+      info.innerHTML = '';
+
+      const artistTempHTML = `<div class="artist-info-container">
+                                <div class="artist-info-text">
+                                </div>
+                                <div class="artist-info-img-container">
+                                  <img
+                                    src="./assets/imgs/${
+                                      searchObj.data()['artistTag']
+                                    }.png"
+                                    alt=""
+                                    class="artist-info-img"
+                                    />
+                                </div>
+                              </div>`;
+      const div = document.createElement('div');
+      div.innerHTML = artistTempHTML;
+      info.appendChild(div);
+
+      document.querySelector('.artist-info-text').innerHTML = artistText;
+
+      return;
+    }
+  });
+
+  //
+
+  const artistInfo = document.querySelector('.artist-info');
+  artistInfo.innerHTML = '';
+
+  // 게시물 노출 부분
   const searchList = document.querySelector('.post-container');
   searchList.innerHTML = '';
-  const searchValue = document.querySelector('#search-value');
 
   searchObjList.forEach((searchObj) => {
+    console.log(searchObjList);
     const timeStamp = searchObj.postDate + 9 * 60 * 60 * 1000;
     const date = new Date(timeStamp);
     const time = date.toLocaleString('ko-KR', { timeZone: 'UTC' });
@@ -63,7 +104,7 @@ export async function getSearchList(event) {
 																>
 															</div>
 															<img
-																src="./assets/imgs/E7364DD7-EDFA-47A3-96D0-CFE41619146A_1_102_o.jpeg"
+																src="${searchObj.postImage}"
 																alt=""
 																class="post-main-img"
 															/>
@@ -96,6 +137,13 @@ export async function autoComp() {
     $('#search-value').autocomplete({
       //오토 컴플릿트 시작
       source: setArtistNameList, // source 는 자동 완성 대상
+      select: function (event) {
+        document.querySelector(
+          '#search-value'
+        ).value = `${event.currentTarget.outerText}`;
+        getSearchList(event);
+        console.log(event);
+      },
       // focus: function (event, ui) {
       //   //포커스 가면
       //   return true; //한글 에러 잡기용도로 사용됨
