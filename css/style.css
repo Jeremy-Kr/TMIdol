@@ -221,6 +221,7 @@ header {
 
 .search:focus-within,
 .search:hover {
+
   /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
   /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
   width: 400px;

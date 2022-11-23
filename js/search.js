@@ -5,18 +5,22 @@ import {
   query,
   getDocs,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
-// 검색 -----------------------------------------------------------------------------
+
+// 검색 
 export async function getSearchList(event) {
   event.preventDefault();
 
   let searchObjList = [];
 
   const q = query(collection(dbService, 'posts'), orderBy('postDate', 'desc'));
+
   const querySnapshot = await getDocs(q);
 
   querySnapshot.forEach((doc) => {
     const searchObj = {
+
       id: doc.id, // artistTag : doc.data().artistTag, -> doc의 data()속에 있는 artistTag지정
+
       ...doc.data(),
     };
     searchObjList.push(searchObj);
@@ -76,9 +80,8 @@ export async function getSearchList(event) {
     }
   });
 }
-// -----------------------------------------------------------------------------
 
-// 자동완성 -----------------------------------------------------------------------------
+// 자동완성 
 export async function autocomp() {
   let artistNameList = [];
 
@@ -88,7 +91,7 @@ export async function autocomp() {
   querySnapshot.forEach((doc) => {
     artistNameList.push(doc.data()['artistTag']);
   });
-  console.log(artistNameList);
+
   const setArtistNameList = [...new Set(artistNameList)]; // 위치 주의 (forEach로 artistNameList에 값을 넣어야 제대로 작동하기에, forEach보다 아래에 위치해야한다.)
   $(function () {
     //화면 다 뜨면 시작
@@ -107,9 +110,8 @@ export async function autocomp() {
     });
   });
 }
-// -----------------------------------------------------------------------------
 
-// 실시간 연예뉴스 -----------------------------------------------------------------------------
+// 실시간 연예뉴스
 function listData() {
   $.ajax({
     type: 'GET',
@@ -140,7 +142,6 @@ function listData() {
   });
 }
 
-setTimeout(listData, 2000);
+setTimeout(listData, 3000);
 setInterval(listData, 30000);
 
-// -----------------------------------------------------------------------------
