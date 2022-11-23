@@ -5,9 +5,15 @@
     <h2>LOGIN</h2>
     <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
     <form id="form-login" enctype="multipart/form-data">
-      <div>ID :<input type="text" name="email" /></div>
-      <div>password :<input type="password" name="password" /></div>
-      <button onclick="loginform(); return false;">완료</button>
+      <div>
+        <label for="login-email">e-mail :</label
+        ><input type="text" name="email" id="login-email" />
+      </div>
+      <div>
+        <label for="password">password :</label
+        ><input type="password" name="password" id="password" />
+      </div>
+      <button onclick="loginForm(); return false;">완료</button>
       <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
     </form>
   </div>
@@ -20,22 +26,24 @@
     <h2>SIGN-UP</h2>
     <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 submitsignup() 함수로 전달 (영주) -->
     <form id="form-signup" enctype="multipart/form-data">
-      <div>ID :<input type="text" name="id" /></div>
-      <div>Nickname :<input type="text" name="nickname" /></div>
-      <div>e-mail :<input type="text" name="email" /></div>
-      <div>password :<input type="password" name="password" /></div>
       <div>
-        confirm password :<input type="password" name="confirmPassword" />
+        <label for="signup-email">e-mail :</label
+        ><input type="text" name="email" id="signup-email" />
       </div>
-      <input
-        type="file"
-        id="chooseFile"
-        name="chooseFile"
-        accept="image/*"
-        onchange="loadFile(this)"
-      />
+      <div>
+        <label for="nickname">Nickname :</label
+        ><input type="text" name="nickname" id="nickname" />
+      </div>
+      <div>
+        <label for="signup-password">password :</label
+        ><input type="password" name="password" id="signup-password" />
+      </div>
+      <div>
+        <label for="confirm-password">confirm password :</label
+        ><input type="password" name="confirmPassword" id="confirm-password" />
+      </div>
       <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
-      <button onclick="submitsignup(); return false;">가입</button>
+      <button onclick="submitSignUp(); return false;">가입</button>
     </form>
   </div>
 </div>
@@ -51,8 +59,8 @@
           ></path>
         </svg>
         <input
-          oninput="autocomp()"
-          id="searchvalue"
+          oninput="autoComp()"
+          id="search-value"
           class="search_input"
           type="text"
           placeholder="좋아하는 아티스트를 검색해보세요!"
@@ -69,18 +77,11 @@
 <div class="grid-container">
   <aside class="left-comp">
     <div class="sign-panel">
-      <!-- <div class="buttons">
-        <button>로그인</button>
-        <button>회원가입</button>
-      </div> -->
+      <div class="buttons">
+        <button href="#" onclick="openLoginModal()">로그인</button>
+        <button href="#" onclick="openSignUpModal()">회원가입</button>
+      </div>
       <p>로그인을 통해 아이돌 팬들과 소통해보세요!</p>
-    </div>
-    <div class="login-btn">
-      <button href="#" onclick="openLoginModal()">로그인</button>
-    </div>
-
-    <div class="signin-btn">
-      <button href="#" onclick="openSignUpModal()">회원가입</button>
     </div>
   </aside>
   <main class="main-comp">
@@ -103,19 +104,28 @@
   <aside class="right-comp">
     <section class="populer">
       <p class="populer-title">실시간 인기글</p>
-        <ul class="populer-list">
-          <li class="populer-item">1 Lorem ipsum</li>
-          <li class="populer-item">2 Lorem ipsum</li>
-          <li class="populer-item">3 Lorem ipsum</li>
-          <li class="populer-item">4 Lorem ipsum</li>
-          <li class="populer-item">5 Lorem ipsum</li>
-        </ul>
+      <ul class="populer-list">
+        <li class="populer-item">1 Lorem ipsum</li>
+        <li class="populer-item">2 Lorem ipsum</li>
+        <li class="populer-item">3 Lorem ipsum</li>
+        <li class="populer-item">4 Lorem ipsum</li>
+        <li class="populer-item">5 Lorem ipsum</li>
+      </ul>
     </section>
     <section class="ent-news">
       <p class="ent-news-title">실시간 연예뉴스</p>
-        <ul class="ent-news-list"></ul>
-        <li class="ent-news-item" style="background-color: black; color:white; border-radius : 40px; text-align: center" >불러오는 중입니다.......</li>
-      </div>
+      <ul class="ent-news-list"></ul>
+      <li
+        class="ent-news-item"
+        style="
+          background-color: black;
+          color: white;
+          border-radius: 40px;
+          text-align: center;
+        "
+      >
+        불러오는 중입니다.......
+      </li>
     </section>
   </aside>
 </div>
