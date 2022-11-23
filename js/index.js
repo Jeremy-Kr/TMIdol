@@ -2,6 +2,7 @@ import { authService } from './firebase.js';
 import { handleLocation } from './router.js';
 import { getSearchList, autoComp } from './search.js';
 import { postInput } from './postcreat.js';
+import { onFileChange } from "./utils.js";
 import {
   openLoginModal,
   closeLoginModal,
@@ -10,6 +11,7 @@ import {
   submitSignUp,
   loginForm,
 } from './sub.js';
+
 
 window.addEventListener('hashchange', handleLocation);
 // document.addEventListener('DOMContentLoaded', listData);
@@ -32,6 +34,10 @@ window.autoComp = autoComp;
 // POST 작성 기능
 window.postInput = postInput;
 
+
+// 사진 업로드 기능
+window.onFileChange = onFileChange;
+
 // modal
 window.openLoginModal = openLoginModal;
 window.closeLoginModal = closeLoginModal;
@@ -39,6 +45,7 @@ window.openSignUpModal = openSignUpModal;
 window.closeSignUpModal = closeSignUpModal;
 window.submitSignUp = submitSignUp;
 window.loginForm = loginForm;
+
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;
