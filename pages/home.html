@@ -1,3 +1,45 @@
+<!-- 2 ~ 14번 로그인 모달 (영주)-->
+<div id="modal-notice-login" class="modal">
+  <div class="modal-content">
+    <a href="#" class="btn-close" onclick="closeLoginModal()">x</a>
+    <h2>LOGIN</h2>
+    <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
+    <form id="form-login" enctype="multipart/form-data">
+      <div>ID :<input type="text" name="email" /></div>
+      <div>password :<input type="password" name="password" /></div>
+      <button onclick="loginform(); return false;">완료</button>
+      <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
+    </form>
+  </div>
+</div>
+
+<!-- 17 ~ 41번 회원가입 모달 (영주)-->
+<div id="modal-notice-signup" class="modal">
+  <div class="modal-content">
+    <a href="#" class="btn-close" onclick="closeSignUpModal()">x</a>
+    <h2>SIGN-UP</h2>
+    <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 submitsignup() 함수로 전달 (영주) -->
+    <form id="form-signup" enctype="multipart/form-data">
+      <div>ID :<input type="text" name="id" /></div>
+      <div>Nickname :<input type="text" name="nickname" /></div>
+      <div>e-mail :<input type="text" name="email" /></div>
+      <div>password :<input type="password" name="password" /></div>
+      <div>
+        confirm password :<input type="password" name="confirmPassword" />
+      </div>
+      <input
+        type="file"
+        id="chooseFile"
+        name="chooseFile"
+        accept="image/*"
+        onchange="loadFile(this)"
+      />
+      <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
+      <button onclick="submitsignup(); return false;">가입</button>
+    </form>
+  </div>
+</div>
+
 <header class="header">
   <div class="header-grid">
     <span class="title">TMI-DOL</span>
@@ -23,6 +65,7 @@
     </div>
   </div>
 </header>
+
 <div class="grid-container">
   <aside class="left-comp">
     <div class="sign-panel">
@@ -33,29 +76,11 @@
       <p>로그인을 통해 아이돌 팬들과 소통해보세요!</p>
     </div>
     <div class="login-btn">
-      <button href="#" onclick="openModal()">로그인</button>
-      <div id="modal-notice" class="modal">
-        <div class="modal-content">
-          <a href="#" class="btn-close" onclick="closeModal()">x</a>
-          <h2>회원 가입</h2>
-          <div>이메일 :<input type="email" /></div>
-          <div>비밀번호 :<input type="password" /></div>
-          <button>회원가입</button>
-        </div>
-      </div>
+      <button href="#" onclick="openLoginModal()">로그인</button>
     </div>
 
     <div class="signin-btn">
-      <button href="#" onclick="openModal()">회원가입</button>
-      <div id="modal-notice" class="modal">
-        <div class="modal-content">
-          <a href="#" class="btn-close" onclick="closeModal()">x</a>
-          <h2>회원 가입</h2>
-          <div>이메일 :<input type="email" /></div>
-          <div>비밀번호 :<input type="password" /></div>
-          <button>회원가입</button>
-        </div>
-      </div>
+      <button href="#" onclick="openSignUpModal()">회원가입</button>
     </div>
   </aside>
   <main class="main-comp">
