@@ -1,6 +1,7 @@
 import { authService } from './firebase.js';
 import { handleLocation } from './router.js';
 import { getSearchList, autoComp } from './search.js';
+import { getPopularList, sendMain } from './popularpost.js';
 import { postInput, postCreateBtn } from './postcreat.js';
 import { onFileChange } from './utils.js';
 import {
@@ -47,6 +48,10 @@ window.profileNicknameEdit = profileNicknameEdit;
 // 자동 완성 기능
 window.getSearchList = getSearchList;
 window.autoComp = autoComp;
+
+// 인기 게시물 기능
+window.getPopularList = getPopularList;
+window.sendMain = sendMain;
 
 // POST 작성 기능
 window.postInput = postInput;

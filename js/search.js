@@ -1,15 +1,17 @@
-import { dbService } from './firebase.js';
+import { authService, dbService } from './firebase.js';
 import {
   collection,
   orderBy,
   query,
   getDocs,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
-
 // 검색
 export async function getSearchList(event) {
   event.preventDefault();
+
   const searchValue = document.querySelector('#search-value');
+
+  // 데이터 담기
   let searchObjList = [];
 
   const q = query(collection(dbService, 'posts'), orderBy('postDate', 'desc'));
@@ -23,7 +25,8 @@ export async function getSearchList(event) {
     };
     searchObjList.push(searchObj);
   });
-  //
+
+  // 아티스트 정보 노출 부분
   querySnapshot.forEach(async (searchObj) => {
     const info = document.querySelector('.artist-info');
     const artistText = await fetch(
@@ -56,32 +59,32 @@ export async function getSearchList(event) {
       info.appendChild(div);
 
       document.querySelector('.artist-info-text').innerHTML = artistText;
-
-      return;
     }
   });
-
-  //
-
-  const artistInfo = document.querySelector('.artist-info');
-  artistInfo.innerHTML = '';
 
   // 게시물 노출 부분
   const searchList = document.querySelector('.post-container');
   searchList.innerHTML = '';
 
-  searchObjList.forEach((searchObj) => {
-    console.log(searchObjList);
-    const timeStamp = searchObj.postDate + 9 * 60 * 60 * 1000;
-    const date = new Date(timeStamp);
-    const time = date.toLocaleString('ko-KR', { timeZone: 'UTC' });
+  try {
+    searchObjList.forEach((searchObj) => {
+      const timeStamp = searchObj.postDate + 9 * 60 * 60 * 1000;
+      const date = new Date(timeStamp);
+      const time = date.toLocaleString('ko-KR', { timeZone: 'UTC' });
 
-    const post = document.querySelector('.post-container');
-    if (searchValue.value.toLowerCase() === searchObj.artistTag.toLowerCase()) {
-      const tempHTML = `<article class="posts">
+      const userUID = searchObj.userUID;
+      const currentUserUID = authService.currentUser.uid;
+
+      const isMyPost = currentUserUID === userUID;
+
+      let fillImage = searchObj.userImage;
+      if (
+        searchValue.value.toLowerCase() === searchObj.artistTag.toLowerCase()
+      ) {
+        const tempHTML = `<article class="posts">
 														<div class="post-header">
 															<img
-																src="./assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg"
+																src=${fillImage ?? './assets/imgs/nullimage.png'}
 																alt=""
 																class="profile-img"
 															/>
@@ -90,7 +93,7 @@ export async function getSearchList(event) {
 																	<div class="post-title-top-name">
 																		<p>
 																			<a class="user-nickname">${searchObj.userNickname}</a>님이
-																			<span class="tags">장소</span>를 공유했습니다.
+																			<span class="tags">포스트</span>를 공유했습니다.
 																		</p>
 																	</div>
 																</div>
@@ -98,6 +101,11 @@ export async function getSearchList(event) {
 																	${searchObj.artistTag}의 팬 @jeremy-kr • ${time}
 																</p>
 															</div>
+                              ${
+                                isMyPost
+                                  ? `<div class="post-button-container"><button class="post-button">수정</button><button class="post-button">삭제</button></div>`
+                                  : ``
+                              }
 														</div>
 														<div class="post-main">
 															<div class="post-main-title">
@@ -115,11 +123,15 @@ export async function getSearchList(event) {
 															</div>
 														</div>
 													</article>`;
-      const div = document.createElement('div');
-      div.innerHTML = tempHTML;
-      post.appendChild(div);
-    }
-  });
+        const div = document.createElement('div');
+        div.innerHTML = tempHTML;
+        searchList.appendChild(div);
+      }
+    });
+  } catch {
+    alert('검색 게시물을 보려면 로그인 하세요.');
+    openLoginModal();
+  }
 }
 
 // 자동완성
@@ -144,7 +156,6 @@ export async function autoComp() {
           '#search-value'
         ).value = `${event.currentTarget.outerText}`;
         getSearchList(event);
-        console.log(event);
       },
       // focus: function (event, ui) {
       //   //포커스 가면
