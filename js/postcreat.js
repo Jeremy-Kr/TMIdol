@@ -21,6 +21,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 import { dbService } from './firebase.js';
+import { getPostsAndDisplay } from './getpost.js';
 
 const auth = getAuth();
 
@@ -120,6 +121,7 @@ async function postSubmit() {
   const postText = postTextArea.value;
   const artistTag = postArtistTagSelector.value;
   const postId = uuidv4();
+  const postUserEmailId = `@${authService.currentUser.email.split('@')[0]}`;
   let postImage;
 
   if (!postTitle) {
@@ -152,6 +154,7 @@ async function postSubmit() {
       postImage: postImage,
       postDate: Date.now(),
       postId: postId,
+      postUserEmailId: postUserEmailId,
     });
 
     // 작성 이후 빈칸처리
@@ -164,6 +167,8 @@ async function postSubmit() {
     document.getElementById('post-input-container').replaceChildren();
     const postPopupBtn = `<button onclick="postInput(event)" id="post-create-text-button">어떤 이야기를 공유하실건가요?</button>`;
     document.getElementById('post-input-container').innerHTML = postPopupBtn;
+
+    getPostsAndDisplay();
   } catch (error) {
     alert(error);
     console.log('error in addDoc:', error);

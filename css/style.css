@@ -429,6 +429,10 @@ header {
   margin: 0.5rem 0;
 }
 
+.single-post-container {
+  margin-bottom: 2rem;
+}
+
 /* right-comp style */
 .populer,
 .ent-news {

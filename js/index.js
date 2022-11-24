@@ -12,6 +12,8 @@ import {
   loginForm,
 } from './sub.js';
 
+import { getPostsAndDisplay } from './getpost.js';
+
 window.addEventListener('hashchange', handleLocation);
 // document.addEventListener('DOMContentLoaded', listData);
 // 첫 랜딩 또는 새로고침 시 handleLocation 실행하여 화면 변경
@@ -23,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const hash = window.location.hash;
     if (user) {
       postCreateBtn();
+      await getPostsAndDisplay();
+    } else {
+      getPostsAndDisplay();
     }
   });
 });
