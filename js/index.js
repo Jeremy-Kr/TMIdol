@@ -14,9 +14,10 @@ import {
   currentUserProfileComp,
   profileImageUpload,
   profileNicknameEdit,
+  logout,
 } from './sub.js';
 
-import { getPostsAndDisplay } from './getpost.js';
+import { getPostsAndDisplay, deletePost, updatePostPopup } from './post.js';
 
 window.addEventListener('hashchange', handleLocation);
 // document.addEventListener('DOMContentLoaded', listData);
@@ -48,8 +49,10 @@ window.profileNicknameEdit = profileNicknameEdit;
 window.getSearchList = getSearchList;
 window.autoComp = autoComp;
 
-// POST 작성 기능
+// POST CRUD 기능
 window.postInput = postInput;
+window.deletePost = deletePost;
+window.updatePostPopup = updatePostPopup;
 
 // 사진 업로드 기능
 window.onFileChange = onFileChange;
@@ -61,6 +64,9 @@ window.openSignUpModal = openSignUpModal;
 window.closeSignUpModal = closeSignUpModal;
 window.submitSignUp = submitSignUp;
 window.loginForm = loginForm;
+
+// 로그아웃
+window.logout = logout;
 
 // window.onToggle = onToggle;
 // window.handleAuth = handleAuth;

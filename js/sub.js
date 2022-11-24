@@ -75,7 +75,7 @@ export function currentUserProfileComp() {
 </div>
 <div class="profile-elements">
   <button class="profile-elements-button">내 글 모아보기</button>
-  <button class="profile-elements-button">로그아웃</button>
+  <button class="profile-elements-button" onclick="logout(event)">로그아웃</button>
 </div>`;
 
   leftComp.innerHTML = temp;
@@ -216,8 +216,15 @@ export function loginForm() {
     });
 }
 
-function userInfo() {
-  // 로그인/회원가입 버튼 및 안내문구 비워주기
-  // 로컬스토리지 userUID를 활용해서 정보 가져오기
-  // 회원 정보 띄워주기
-}
+export const logout = () => {
+  signOut(authService)
+    .then(() => {
+      // Sign-out successful.
+      localStorage.clear();
+      console.log('로그아웃 성공');
+    })
+    .catch((error) => {
+      // An error happened.
+      console.log('error:', error);
+    });
+};

@@ -21,7 +21,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 import { dbService } from './firebase.js';
-import { getPostsAndDisplay } from './getpost.js';
+import { getPostsAndDisplay } from './post.js';
 
 const auth = getAuth();
 
@@ -120,7 +120,7 @@ async function postSubmit() {
   const postTitle = postTitleInput.value;
   const postText = postTextArea.value;
   const artistTag = postArtistTagSelector.value;
-  const postId = uuidv4();
+  const postPhotoName = uuidv4();
   const postUserEmailId = `@${authService.currentUser.email.split('@')[0]}`;
   let postImage;
 
@@ -137,7 +137,7 @@ async function postSubmit() {
 
   // 이미지 스토리지 저장 후 url 가져오기
   const localPostImage = localStorage.getItem('imgDataUrl');
-  const imgRef = ref(storageService, `postImgs/${postId}`);
+  const imgRef = ref(storageService, `postImgs/${postPhotoName}`);
   if (localPostImage) {
     const res = await uploadString(imgRef, localPostImage, 'data_url');
     postImage = await getDownloadURL(res.ref);
@@ -153,8 +153,8 @@ async function postSubmit() {
       artistTag: artistTag,
       postImage: postImage,
       postDate: Date.now(),
-      postId: postId,
       postUserEmailId: postUserEmailId,
+      postPhotoName: postPhotoName,
     });
 
     // 작성 이후 빈칸처리
