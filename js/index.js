@@ -10,6 +10,10 @@ import {
   closeSignUpModal,
   submitSignUp,
   loginForm,
+  singUpAndLoginComp,
+  currentUserProfileComp,
+  profileImageUpload,
+  profileNicknameEdit,
 } from './sub.js';
 
 import { getPostsAndDisplay } from './getpost.js';
@@ -26,13 +30,19 @@ document.addEventListener('DOMContentLoaded', function () {
     if (user) {
       postCreateBtn();
       await getPostsAndDisplay();
+      currentUserProfileComp();
     } else {
+      singUpAndLoginComp();
       getPostsAndDisplay();
     }
   });
 });
 
 // onclick, onchange, onsubmit 이벤트 핸들러 리스트
+
+// profile 수정 기능
+window.profileImageUpload = profileImageUpload;
+window.profileNicknameEdit = profileNicknameEdit;
 
 // 자동 완성 기능
 window.getSearchList = getSearchList;

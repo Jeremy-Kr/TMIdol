@@ -44,7 +44,14 @@ export async function getPostsAndDisplay() {
     };
     getPostsData.push(postData);
   });
-  const currentUserUID = authService.currentUser.uid;
+  let currentUserUID;
+  if (authService.currentUser) {
+    currentUserUID = authService.currentUser.uid;
+  }
+  //   else {
+  //     currentUserUID = '';
+  //   }
+
   getPostsData.map((post) => {
     const {
       artistTag,

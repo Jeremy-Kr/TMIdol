@@ -5,11 +5,142 @@ import {
   signInWithPopup,
   GithubAuthProvider,
   signOut,
+  updateProfile,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+  getMetadata,
+} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
+
 import { emailRegex } from './utils.js';
+import { storageService } from './firebase.js';
 
 const authService = getAuth();
+
+export function singUpAndLoginComp() {
+  const leftComp = document.querySelector('.left-comp');
+  leftComp.innerHTML = '';
+  const temp = `<div class="buttons">
+                  <button href="#" onclick="openLoginModal()">로그인</button>
+                  <button href="#" onclick="openSignUpModal()">회원가입</button>
+                </div>
+                <p>로그인을 통해 아이돌 팬들과 소통해보세요!</p>`;
+  const signPanel = document.createElement('div');
+  signPanel.className = 'sign-panel';
+  signPanel.innerHTML = temp;
+
+  leftComp.append(signPanel);
+}
+
+export function currentUserProfileComp() {
+  const leftComp = document.querySelector('.left-comp');
+  leftComp.innerHTML = '';
+  const userProfileImg =
+    authService.currentUser.photoURL || '../assets/imgs/basic_profile.jpg';
+  const userNickname = authService.currentUser.displayName || '익명사용자';
+  const userEmailId =
+    `@${authService.currentUser.email.split('@')[0]}` || '@익명사용자';
+  const temp = `<div class="user-profile">
+  <label>
+  <img
+    src="${userProfileImg}"
+    class="user-profile-image"
+    alt="유져 프로필 사진"
+  />
+  <input style="display:none" type="file" accept='images/*' onchange="profileImageUpload(event)"/>
+  </label>
+  <div class="user-names">
+      <p>
+      ${userNickname}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            fill="currentColor"
+            class="bi bi-pencil"
+            viewBox="0 0 16 16"
+            onclick="profileNicknameEdit(event)"
+          >
+            <path
+              d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+            />
+          </svg>
+    </p>
+    <p>${userEmailId}</p>
+  </div>
+</div>
+<div class="profile-elements">
+  <button class="profile-elements-button">내 글 모아보기</button>
+  <button class="profile-elements-button">로그아웃</button>
+</div>`;
+
+  leftComp.innerHTML = temp;
+}
+
+export function profileNicknameEdit(event) {
+  const profileNameContainer = document.querySelector('.user-names');
+  profileNameContainer.innerHTML = '';
+
+  const newNicknameInputContainer = document.createElement('div');
+  newNicknameInputContainer.className = 'new-nickname-input-container';
+
+  const newNicknameInput = document.createElement('input');
+  newNicknameInput.className = 'new-nickname-input';
+  newNicknameInput.value = authService.currentUser.displayName || '익명사용자';
+  newNicknameInput.maxLength = 7;
+
+  const editNickname = document.createElement('button');
+  editNickname.addEventListener('click', updateNickname);
+  editNickname.className = 'nickname-edit-button';
+  editNickname.innerText = '수정';
+
+  newNicknameInputContainer.append(newNicknameInput);
+  newNicknameInputContainer.append(editNickname);
+  profileNameContainer.append(newNicknameInputContainer);
+}
+
+export async function updateNickname() {
+  const userNewNickname = document.querySelector('.new-nickname-input').value;
+  await updateProfile(authService.currentUser, {
+    displayName: userNewNickname ? userNewNickname : null,
+  })
+    .then(() => {
+      currentUserProfileComp();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
+export async function profileImageUpload(event) {
+  const imgRef = ref(
+    storageService,
+    `userProfileImgs/${authService.currentUser.uid}`
+  );
+  let userProfileImgURL;
+  const isImgOnStorage = await getMetadata(imgRef).catch((e) => console.log(e));
+  if (isImgOnStorage) {
+    await deleteObject(imgRef).catch((error) => console.log(error));
+    const res = await uploadBytes(imgRef, event.target.files[0], 'data_url');
+    userProfileImgURL = await getDownloadURL(res.ref);
+  } else {
+    const res = await uploadBytes(imgRef, event.target.files[0], 'data_url');
+    userProfileImgURL = await getDownloadURL(res.ref);
+  }
+  await updateProfile(authService.currentUser, {
+    photoURL: userProfileImgURL ? userProfileImgURL : null,
+  })
+    .then(() => {
+      currentUserProfileComp();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 
 export function openLoginModal() {
   let modal = document.getElementById('modal-notice-login');
