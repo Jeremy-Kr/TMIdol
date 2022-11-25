@@ -23,7 +23,6 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 import { dbService } from './firebase.js';
 import { getPostsAndDisplay } from './post.js';
 
-
 const auth = getAuth();
 
 // DOM 노드 생성
@@ -122,7 +121,20 @@ async function postSubmit() {
   const postText = postTextArea.value;
   const artistTag = postArtistTagSelector.value;
   const postPhotoName = uuidv4();
-  const postUserEmailId = `@${authService.currentUser.email.split('@')[0]}`;
+  let postUserEmailId;
+  if (authService.currentUser.email) {
+    postUserEmailId = `@${authService.currentUser.email.split('@')[0]}`;
+  } else {
+    if (authService.currentUser.providerData[0].email) {
+      postUserEmailId = `@${
+        authService.currentUser.providerData[0].email.split('@')[0]
+      }`;
+    } else if (authService.currentUser.reloadUserInfo.screenName) {
+      postUserEmailId = `@${authService.currentUser.reloadUserInfo.screenName}`;
+    } else {
+      postUserEmailId = '@익명사용자';
+    }
+  }
   let postImage;
 
   if (!postTitle) {
@@ -156,6 +168,7 @@ async function postSubmit() {
       postDate: Date.now(),
       postUserEmailId: postUserEmailId,
       postPhotoName: postPhotoName,
+      likeUsers: [1],
     });
 
     // 작성 이후 빈칸처리

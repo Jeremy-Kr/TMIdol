@@ -476,11 +476,36 @@ header {
 }
 
 .post-main-text {
-  margin: 0.5rem 0;
+  margin: 1rem;
 }
 
 .single-post-container {
   margin-bottom: 2rem;
+}
+
+.likes {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin: 1rem 1rem;
+  font-size: 1.5rem;
+}
+
+.redHeart {
+  color: red;
+  z-index: 100;
+}
+
+.hidden {
+  display: none;
+}
+
+.like-icon {
+  margin-right: 0.5rem;
+}
+
+.like-count {
+  color: #000;
 }
 
 /* right-comp style */

@@ -16,9 +16,15 @@ import {
   profileImageUpload,
   profileNicknameEdit,
   logout,
+  socialLogin,
+  myPosts,
 } from './sub.js';
-import { getPostsAndDisplay, deletePost, updatePostPopup } from './post.js';
-
+import {
+  getPostsAndDisplay,
+  deletePost,
+  updatePostPopup,
+  like,
+} from './post.js';
 
 window.addEventListener('hashchange', handleLocation);
 // document.addEventListener('DOMContentLoaded', listData);
@@ -53,6 +59,7 @@ window.autoComp = autoComp;
 // 인기 게시물 기능
 window.getPopularList = getPopularList;
 window.sendMain = sendMain;
+window.like = like;
 
 // POST CRUD 기능
 window.postInput = postInput;
@@ -69,18 +76,10 @@ window.openSignUpModal = openSignUpModal;
 window.closeSignUpModal = closeSignUpModal;
 window.submitSignUp = submitSignUp;
 window.loginForm = loginForm;
+window.socialLogin = socialLogin;
 
 // 로그아웃
 window.logout = logout;
 
-// window.onToggle = onToggle;
-// window.handleAuth = handleAuth;
-// window.goToProfile = goToProfile;
-// window.socialLogin = socialLogin;
-// window.logout = logout;
-// window.onFileChange = onFileChange;
-// window.changeProfile = changeProfile;
-// window.save_comment = save_comment;
-// window.update_comment = update_comment;
-// window.onEditing = onEditing;
-// window.delete_comment = delete_comment;
+// 내글 모아보기
+window.myPosts = myPosts;

@@ -29,8 +29,23 @@ postButtons.append(updateBtn);
 
 // function postMenuPopup() {}
 
-function deletePost() {}
-function updatePost() {}
+export async function deletePost(event) {
+  event.preventDefault();
+  const postId = event.target.id;
+  const postPhotoName = event.target.name;
+  const imgRef = ref(storageService, `postImgs/${postPhotoName}`);
+  const deletePostConfirm = window.confirm('정말로 포스트를 삭제하시겠습니까?');
+
+  if (deletePostConfirm) {
+    try {
+      await deleteObject(imgRef).catch((error) => console.log(error));
+      await deleteDoc(doc(dbService, 'posts', postId));
+      getPostsAndDisplay();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 
 export async function getPostsAndDisplay() {
   const postsContainer = document.querySelector('.post-container');
@@ -40,6 +55,7 @@ export async function getPostsAndDisplay() {
   const docs = await getDocs(q);
   docs.forEach((doc) => {
     const postData = {
+      id: doc.id,
       ...doc.data(),
     };
     getPostsData.push(postData);
@@ -56,13 +72,14 @@ export async function getPostsAndDisplay() {
     const {
       artistTag,
       postDate,
-      postId,
+      id,
       postImage,
       postText,
       postTitle,
       userNickname,
       userUID,
       postUserEmailId,
+      postPhotoName,
     } = post;
 
     const dateFormat = new Date(postDate + 9 * 60 * 60 * 1000).toLocaleString(
@@ -71,7 +88,7 @@ export async function getPostsAndDisplay() {
     );
     const isMyPost = currentUserUID === userUID;
 
-    const tempHTML = `<article class="posts" id="${postId}">
+    const tempHTML = `<article class="posts" id="${id}">
         <div class="post-header">
             <img
                 src="${
@@ -98,8 +115,8 @@ export async function getPostsAndDisplay() {
             </div>
             ${
               isMyPost
-                ? `<div class="post-button-container"><button class="post-button">수정</button><button class="post-button">삭제</button></div>`
-                : ``
+                ? `<div class="post-button-container"><button class="post-button" id="${id}" onclick="updatePostPopup(event)">수정</button><button class="post-button" name="${postPhotoName}" id="${id}" onclick="deletePost(event)">삭제</button></div>`
+                : ''
             }
         </div>
         <div class="post-main">
@@ -114,7 +131,7 @@ export async function getPostsAndDisplay() {
                 class="post-main-img"
             />
             <div class="post-main-text">
-            ${postText}
+            <div>${postText}</div>
             </div>
         </div>
       </article>`;

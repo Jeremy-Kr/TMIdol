@@ -9,12 +9,12 @@ import { getStorage } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-s
 
 // Your web app's Firebase configuration
 // const firebaseConfig = {
-//   apiKey: "AIzaSyAaUf9CaLX6rxXJk2GfizWXdjgbPyJAs4k",
-//   authDomain: "tmidol.firebaseapp.com",
-//   projectId: "tmidol",
-//   storageBucket: "tmidol.appspot.com",
-//   messagingSenderId: "887608608292",
-//   appId: "1:887608608292:web:8af3db4fbd137bbdaafab1",
+//   apiKey: 'AIzaSyAaUf9CaLX6rxXJk2GfizWXdjgbPyJAs4k',
+//   authDomain: 'tmidol.firebaseapp.com',
+//   projectId: 'tmidol',
+//   storageBucket: 'tmidol.appspot.com',
+//   messagingSenderId: '887608608292',
+//   appId: '1:887608608292:web:8af3db4fbd137bbdaafab1',
 // };
 
 const firebaseConfig = {
