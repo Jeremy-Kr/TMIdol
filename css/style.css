@@ -498,6 +498,11 @@ header {
   top: 82px;
 }
 
+.populer-item:hover {
+  color: white;
+  cursor: pointer;
+}
+
 .ent-news {
   top: 375px;
   width: 200px;
