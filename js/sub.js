@@ -352,7 +352,6 @@ export const socialLogin = (event) => {
   }
   signInWithPopup(authService, provider)
     .then((result) => {
-      console.log(result);
       const user = result.user;
     })
     .catch((error) => {
@@ -368,7 +367,6 @@ export const logout = () => {
     .then(() => {
       // Sign-out successful.
       localStorage.clear();
-      console.log('로그아웃 성공');
     })
     .catch((error) => {
       // An error happened.

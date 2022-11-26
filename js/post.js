@@ -18,6 +18,7 @@ import {
   ref,
   deleteObject,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
+import { openLoginModal } from './sub.js';
 
 const deleteBtn = document.createElement('button');
 deleteBtn.className = 'delete-button';
@@ -109,43 +110,68 @@ export async function updatePost() {
 }
 
 export async function like(event) {
-  let likeUser = [];
-  const targetPostRef = doc(dbService, 'posts', event.target.id);
-  const q = query(targetPostRef);
-  const likePostData = [];
-  const docs = await getDoc(q);
-  const { like, likeUsers } = docs.data();
+  if (authService.currentUser) {
+    let likeUser = [];
+    const targetPostRef = doc(dbService, 'posts', event.target.id);
+    const q = query(targetPostRef);
+    const likePostData = [];
+    const docs = await getDoc(q);
+    const { likeUsers } = docs.data();
 
-  if (likeUsers) {
-    likeUser = [...likeUsers];
-  }
-  if (likeUser.some((e) => e === authService.currentUser.uid)) {
-    const userIndex = likeUser.findIndex(
-      (e) => e === authService.currentUser.uid
-    );
-    likeUser.splice(userIndex, 1);
-    await updateDoc(targetPostRef, {
-      like: increment(-1),
-    });
-    await updateDoc(targetPostRef, {
-      likeUsers: likeUser,
-    });
-    event.target
-      .closest('.likes')
-      .querySelector('.redHeart')
-      .classList.add('hidden');
+    if (likeUsers) {
+      likeUser = [...likeUsers];
+    }
+    if (likeUser.some((e) => e === authService.currentUser.uid)) {
+      const userIndex = likeUser.findIndex(
+        (e) => e === authService.currentUser.uid
+      );
+      likeUser.splice(userIndex, 1);
+      await updateDoc(targetPostRef, {
+        like: increment(-1),
+      });
+      await updateDoc(targetPostRef, {
+        likeUsers: likeUser,
+      });
+
+      // 좋아요 -1 이후 다시 데이터 요청 후 숫자 반영
+      const afterDisLike = await getDoc(q);
+      let { like } = afterDisLike.data();
+      if (like > 99) {
+        like = '+99';
+      }
+      event.target.closest('.likes').querySelector('.like-count').innerText =
+        like;
+
+      event.target
+        .closest('.likes')
+        .querySelector('.redHeart')
+        .classList.add('hidden');
+    } else {
+      await updateDoc(targetPostRef, {
+        like: increment(1),
+      });
+      likeUser.push(authService.currentUser.uid);
+      await updateDoc(targetPostRef, {
+        likeUsers: likeUser,
+      });
+
+      // 좋아요 +1 이후 다시 데이터 요청 후 숫자 반영
+      const afterLike = await getDoc(q);
+      let { like } = afterLike.data();
+      if (like > 99) {
+        like = '+99';
+      }
+      event.target.closest('.likes').querySelector('.like-count').innerText =
+        like;
+
+      event.target
+        .closest('.likes')
+        .querySelector('.redHeart')
+        .classList.remove('hidden');
+    }
   } else {
-    await updateDoc(targetPostRef, {
-      like: increment(1),
-    });
-    likeUser.push(authService.currentUser.uid);
-    await updateDoc(targetPostRef, {
-      likeUsers: likeUser,
-    });
-    event.target
-      .closest('.likes')
-      .querySelector('.redHeart')
-      .classList.remove('hidden');
+    alert('좋아요 기능은 로그인 후 이용하실 수 있습니다!');
+    openLoginModal();
   }
 }
 
@@ -162,6 +188,7 @@ export async function getPostsAndDisplay() {
     };
     getPostsData.push(postData);
   });
+
   let currentUserUID;
   if (authService.currentUser) {
     currentUserUID = authService.currentUser.uid;
@@ -206,6 +233,16 @@ export async function getPostsAndDisplay() {
       like = '+99';
     }
 
+    const editAndDeleteButton = ` <div class="post-button-container">
+                                    <svg alt="포스트 수정하기" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" id="${id}" onclick="updatePostPopup(event)" viewBox="0 0 16 16">
+                                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                    </svg>
+                                    <svg alt="포스트 삭제하기" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" name="${postPhotoName}" id="${id}" onclick="deletePost(event)" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                  </div>`;
+
     const tempHTML = `<article class="posts">
         <div class="post-header">
             <img
@@ -231,11 +268,7 @@ export async function getPostsAndDisplay() {
     } • ${dateFormat}
                 </p>
             </div>
-            ${
-              isMyPost
-                ? `<div class="post-button-container"><button class="post-button" id="${id}" onclick="updatePostPopup(event)">수정</button><button class="post-button" name="${postPhotoName}" id="${id}" onclick="deletePost(event)">삭제</button></div>`
-                : ``
-            }
+            ${isMyPost ? editAndDeleteButton : ``}
         </div>
         <div class="post-main">
             <div class="post-main-title">
