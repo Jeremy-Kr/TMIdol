@@ -1,29 +1,17 @@
-import { onFileChange } from './utils.js';
-import { authService, storageService } from './firebase.js';
-import {
-  doc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  collection,
-  orderBy,
-  query,
-  getDocs,
-} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
-import {
-  getAuth,
-  onAuthStateChanged,
-} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js';
-import {
-  ref,
-  uploadString,
-  getDownloadURL,
-} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
-import { dbService } from './firebase.js';
+import { authService, storageService, dbService } from './firebase.js';
 import { getPostsAndDisplay } from './post.js';
 
-const auth = getAuth();
+import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js';
+import {
+  addDoc,
+  collection,
+} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
 
 // DOM 노드 생성
 
@@ -49,7 +37,6 @@ const postImageInput = document.createElement('input');
 postImageInput.type = 'file';
 postImageInput.className = 'post-image-input';
 postImageInput.accept = 'images/*';
-postImageInput.addEventListener('change', onFileChange);
 
 const postArtistTagSelectorLabel = document.createElement('label');
 postArtistTagSelectorLabel.innerText = '아티스트 태그 선택';
@@ -82,11 +69,9 @@ postSubmitButton.addEventListener('click', postSubmit);
 
 // 로그인 시 포스트 작성 버튼 생성
 export const postCreateBtn = () => {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(authService, (user) => {
     if (user) {
-      const userProfileImg =
-        user.photoURL ||
-        '../assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg';
+      const userProfileImg = user.photoURL || '../assets/imgs/nullimage.png';
       const postCreateBtnHTML = `
                                 <div class="post-create-profile-img-container">
                                   <img
@@ -113,9 +98,9 @@ export const postCreateBtn = () => {
 
 // post 작성 db통신
 
-async function postSubmit() {
+async function postSubmit(event) {
   const userNickname = authService.currentUser.displayName || '익명 사용자';
-  const userImage = authService.currentUser.photoUrl || null;
+  const userImage = authService.currentUser.photoURL || null;
   const userUID = authService.currentUser.uid;
   const postTitle = postTitleInput.value;
   const postText = postTextArea.value;
@@ -149,10 +134,11 @@ async function postSubmit() {
   }
 
   // 이미지 스토리지 저장 후 url 가져오기
-  const localPostImage = localStorage.getItem('imgDataUrl');
+  const needUploadPostImage =
+    event.target.previousElementSibling.childNodes[0].childNodes[1].files[0];
   const imgRef = ref(storageService, `postImgs/${postPhotoName}`);
-  if (localPostImage) {
-    const res = await uploadString(imgRef, localPostImage, 'data_url');
+  if (needUploadPostImage) {
+    const res = await uploadBytes(imgRef, needUploadPostImage, 'data_url');
     postImage = await getDownloadURL(res.ref);
   }
 
@@ -164,7 +150,7 @@ async function postSubmit() {
       postTitle: postTitle,
       postText: postText,
       artistTag: artistTag,
-      postImage: postImage,
+      postImage: postImage || '#',
       postDate: Date.now(),
       postUserEmailId: postUserEmailId,
       postPhotoName: postPhotoName,

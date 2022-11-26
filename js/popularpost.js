@@ -36,7 +36,8 @@ export async function sendMain(event) {
     ...docs.data(),
   };
   getPostsData.push(getPostData);
-
+  const info = document.querySelector('.artist-info');
+  info.innerHTML = '';
   postList(getPostsData);
 }
 

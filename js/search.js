@@ -1,9 +1,11 @@
-import { authService, dbService } from './firebase.js';
+import { dbService } from './firebase.js';
+import { postList } from './postList.js';
+
 import {
   collection,
-  orderBy,
   query,
   getDocs,
+  where,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
 // 검색
 export async function getSearchList(event) {
@@ -14,7 +16,11 @@ export async function getSearchList(event) {
   // 데이터 담기
   let searchObjList = [];
 
-  const q = query(collection(dbService, 'posts'), orderBy('postDate', 'desc'));
+  const q = query(
+    collection(dbService, 'posts'),
+    // orderBy('postDate', 'desc'),
+    where('artistTag', '==', searchValue.value.toUpperCase())
+  );
 
   const querySnapshot = await getDocs(q);
 
@@ -63,102 +69,7 @@ export async function getSearchList(event) {
   });
 
   // 게시물 노출 부분
-  const searchList = document.querySelector('.post-container');
-  searchList.innerHTML = '';
-
-  try {
-    searchObjList.forEach((searchObj) => {
-      const {
-        artistTag,
-        postDate,
-        id,
-        postImage,
-        postText,
-        postTitle,
-        userNickname,
-        userUID,
-        postUserEmailId,
-        postPhotoName,
-        userImage,
-      } = searchObj;
-
-      const dateFormat = new Date(postDate + 9 * 60 * 60 * 1000).toLocaleString(
-        'ko-KR',
-        { timeZone: 'UTC' }
-      );
-
-      let currentUserUID;
-      if (authService.currentUser) {
-        currentUserUID = authService.currentUser.uid;
-      }
-      // const currentUserUID = authService.currentUser.uid;
-
-      const isMyPost = currentUserUID === userUID;
-
-      if (
-        searchValue.value.toLowerCase() === searchObj.artistTag.toLowerCase()
-      ) {
-        const tempHTML = `<article class="posts">
-        <div class="post-header">
-            <img
-                src="${
-                  userImage ||
-                  './assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg'
-                }"
-                alt=""
-                class="profile-img"
-            />
-            <div class="post-title">
-                <div class="post-title-top">
-                    <div class="post-title-top-name">
-                        <p>
-                            <a class="user-nickname">${userNickname}</a>님이
-                            <span class="tags">포스트</span>를 공유했습니다.
-                        </p>
-                    </div>
-                </div>
-                <p class="post-title-bottom">
-                    ${artistTag}의 팬 ${
-          postUserEmailId || '@익명사용자'
-        } • ${dateFormat}
-                </p>
-            </div>
-            ${
-              isMyPost
-                ? `<div class="post-button-container"><button class="post-button" id="${id}" onclick="updatePostPopup(event)">수정</button><button class="post-button" name="${postPhotoName}" id="${id}" onclick="deletePost(event)">삭제</button></div>`
-                : ``
-            }
-        </div>
-        <div class="post-main">
-            <div class="post-main-title">
-                <span
-                    >${postTitle}</span
-                >
-            </div>
-            <img
-                src="${postImage}"
-                alt=""
-                class="post-main-img"
-            />
-            <div class="likes">
-                <svg onclick="like(event)" class="like-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-balloon-heart" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8.49 10.92C19.412 3.382 11.28-2.387 8 .986 4.719-2.387-3.413 3.382 7.51 10.92l-.234.468a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2.376 2.376 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224l-.235-.468ZM6.726 1.269c-1.167-.61-2.8-.142-3.454 1.135-.237.463-.36 1.08-.202 1.85.055.27.467.197.527-.071.285-1.256 1.177-2.462 2.989-2.528.234-.008.348-.278.14-.386Z"/>
-                </svg>
-                <span class="like-count">+99</span>
-                </div>
-            <div class="post-main-text">
-            <span>${postText}</span>
-            </div>
-        </div>
-      </article>`;
-        const div = document.createElement('div');
-        div.innerHTML = tempHTML;
-        searchList.appendChild(div);
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  postList(searchObjList);
 }
 
 // 자동완성
@@ -178,16 +89,11 @@ export async function autoComp() {
     $('#search-value').autocomplete({
       //오토 컴플릿트 시작
       source: setArtistNameList, // source 는 자동 완성 대상
-      select: function (event) {
-        document.querySelector(
-          '#search-value'
-        ).value = `${event.currentTarget.outerText}`;
+      select: function (event, ui) {
+        // item 선택 시 이벤트
+        document.querySelector('#search-value').value = ui.item.value;
         getSearchList(event);
       },
-      // focus: function (event, ui) {
-      //   //포커스 가면
-      //   return true; //한글 에러 잡기용도로 사용됨
-      // },
       minLength: 1, // 최소 글자수
       // autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
       delay: 100, //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
@@ -198,7 +104,7 @@ export async function autoComp() {
 }
 
 // 실시간 연예뉴스
-function listData() {
+export function listData() {
   $.ajax({
     type: 'GET',
     url: 'https://entertain.daum.net/prx/mc2/v2/contents/1874537.json?pageSize=15&page=1&maxDate=&range=1&filterKey=cateInfo.cateId,factor.photo&filterVal=1033,false',

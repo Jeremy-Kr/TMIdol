@@ -1,3 +1,8 @@
+import { emailRegex } from './utils.js';
+import { storageService, dbService, authService } from './firebase.js';
+import { postList } from './postList.js';
+import { postCreateBtn } from './postcreat.js';
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,7 +12,6 @@ import {
   signOut,
   updateProfile,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js';
 import {
   ref,
   uploadBytes,
@@ -16,17 +20,12 @@ import {
   getMetadata,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js';
 import {
-  doc,
   collection,
   orderBy,
   query,
   getDocs,
   where,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
-import { emailRegex } from './utils.js';
-import { storageService, dbService } from './firebase.js';
-
-const authService = getAuth();
 
 export function singUpAndLoginComp() {
   const leftComp = document.querySelector('.left-comp');
@@ -47,7 +46,7 @@ export function currentUserProfileComp() {
   const leftComp = document.querySelector('.left-comp');
   leftComp.innerHTML = '';
   const userProfileImg =
-    authService.currentUser.photoURL || '../assets/imgs/basic_profile.jpg';
+    authService.currentUser.photoURL || '../assets/imgs/nullimage.png';
   const userNickname = authService.currentUser.displayName || '익명사용자';
   let userEmailId;
   if (authService.currentUser.email) {
@@ -122,87 +121,19 @@ export async function myPosts(event) {
   if (authService.currentUser) {
     currentUserUID = authService.currentUser.uid;
   }
-  getPostsData.map((post) => {
-    const {
-      artistTag,
-      postDate,
-      postId,
-      postImage,
-      postText,
-      postTitle,
-      userNickname,
-      userUID,
-      postUserEmailId,
-    } = post;
-
-    const dateFormat = new Date(postDate + 9 * 60 * 60 * 1000).toLocaleString(
-      'ko-KR',
-      { timeZone: 'UTC' }
-    );
-    const isMyPost = currentUserUID === userUID;
-
-    const tempHTML = `<article class="posts" id="${postId}">
-        <div class="post-header">
-            <img
-                src="${
-                  post.userImage ||
-                  './assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg'
-                }"
-                alt=""
-                class="profile-img"
-            />
-            <div class="post-title">
-                <div class="post-title-top">
-                    <div class="post-title-top-name">
-                        <p>
-                            <a class="user-nickname">${userNickname}</a>님이
-                            <span class="tags">포스트</span>를 공유했습니다.
-                        </p>
-                    </div>
-                </div>
-                <p class="post-title-bottom">
-                    ${artistTag}의 팬 ${
-      postUserEmailId || '@익명사용자'
-    } • ${dateFormat}
-                </p>
-            </div>
-            ${
-              isMyPost
-                ? `<div class="post-button-container"><button class="post-button">수정</button><button class="post-button">삭제</button></div>`
-                : ``
-            }
-        </div>
-        <div class="post-main">
-            <div class="post-main-title">
-                <span
-                    >${postTitle}</span
-                >
-            </div>
-            <img
-                src="${postImage}"
-                alt=""
-                class="post-main-img"
-            />
-            <div class="post-main-text">
-            ${postText}
-            </div>
-        </div>
-      </article>`;
-
-    const postContainer = document.createElement('div');
-    postContainer.className = 'single-post-container';
-    postContainer.innerHTML = tempHTML;
-    postsContainer.append(postContainer);
-
-    const info = document.querySelector('.artist-info');
-    info.innerHTML = '';
-  });
+  postList(getPostsData);
 
   const myPostTitle = document.createElement('div');
   myPostTitle.innerText = '내 글 모아보기';
   myPostTitle.className = 'my-post-title';
 
+  if (getPostsData.length === 0) {
+    myPostTitle.innerText =
+      '작성하신 게시글이 없습니다🥲 \n새로운 게시글을 작성 해 팬들과 소통해보세요!';
+  }
+
   const info = document.querySelector('.artist-info');
+  info.innerHTML = '';
   info.append(myPostTitle);
 }
 
@@ -261,6 +192,8 @@ export async function profileImageUpload(event) {
   })
     .then(() => {
       currentUserProfileComp();
+      document.querySelector('.main-comp').childNodes[0].remove();
+      postCreateBtn();
     })
     .catch((e) => {
       console.log(e);
@@ -293,10 +226,10 @@ export function submitSignUp() {
   const confirmPassword =
     document.getElementById('form-signup').confirmPassword.value;
   if (password === confirmPassword) {
-    if (password.length < 6) return alert('비밀번호는 6자 이상이여야 합니다.');
     if (!email) return alert('이메일은 반드시 입력되어야 합니다.');
     if (matchedEmail === null) return alert('이메일 형식에 맞게 입력해 주세요');
     if (!nickname) return alert('닉네임은 반드시 입력되어야 합니다.');
+    if (password.length < 6) return alert('비밀번호는 6자 이상이여야 합니다.');
     if (!password) return alert('비밀번호는 반드시 입력되어야 합니다.');
     createUserWithEmailAndPassword(authService, email, password, nickname)
       .then((userCredential) => {
@@ -304,13 +237,11 @@ export function submitSignUp() {
         const user = userCredential.user;
         const userUID = user.uid;
         localStorage.setItem('userUID', userUID);
-        console.log(userCredential);
+        alert('회원가입 성공!');
       })
-      .then(userInfo())
       .catch((error) => {
         alert('다시 시도해주세요');
         const errorMessage = error.message;
-        console.log(errorMessage);
         // 회원가입 실패 시
       });
   } else {
@@ -321,8 +252,11 @@ export function submitSignUp() {
 // home.html에 있는 로그인 form에서 받아온 정보들 넣음 (영주)
 export function loginForm() {
   const email = document.getElementById('form-login').email.value;
+  const matchedEmail = email.match(emailRegex);
   const password = document.getElementById('form-login').password.value;
-
+  if (!email) return alert('이메일은 반드시 입력되어야 합니다.');
+  if (matchedEmail === null) return alert('이메일 형식에 맞게 입력해 주세요');
+  if (!password) return alert('비밀번호는 반드시 입력되어야 합니다.');
   signInWithEmailAndPassword(authService, email, password)
     .then((userCredential) => {
       // 로그인 성공 시
@@ -335,8 +269,9 @@ export function loginForm() {
     })
     .catch((error) => {
       // 로그인 실패 시
-      const errorMessage = error.message;
-      console.log(errorMessage);
+      alert('이메일 또는 비밀번호를 다시 입력 해 주세요.');
+      document.getElementById('form-login').email.value = '';
+      document.getElementById('form-login').password.value = '';
       closeLoginModal();
     });
 }

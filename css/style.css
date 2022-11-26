@@ -88,6 +88,9 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+a {
+  text-decoration: none;
+}
 
 ::-webkit-resizer {
   display: none;
@@ -141,7 +144,6 @@ body {
   width: calc(100% - 32px);
   max-width: 1120px;
   margin: auto;
-  /* height: 200vh; */
 }
 
 /* header grid */
@@ -198,8 +200,8 @@ header {
   text-align: right;
   font-size: 1.5rem;
   font-weight: 700;
-  text-decoration: none; /* 링크의 밑줄 제거 */
-  color: inherit; /* 링크의 색상 제거 */
+  text-decoration: none;
+  color: inherit;
 }
 
 #search-value {
@@ -219,10 +221,9 @@ header {
 
 .search:focus-within,
 .search:hover {
-  /* focus-within : 자식 태그 중 어떤 것이든 focus되었을 때, 부모노드의 상태를 의미 */
-  /* 현재는 input태그가 선택되었을 때, 부모 태그인 search의 width를 변경 */
   width: 550px;
 }
+
 /* 자동완성 css */
 
 .ui-widget.ui-widget-content {
@@ -313,6 +314,41 @@ header {
   background-color: #94cbfa;
   border: 1px solid #94cbfa;
   border-radius: 0.5rem;
+}
+
+.login-btn,
+.signin-btn {
+}
+.modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+}
+.modal-content {
+  background-color: #fff;
+  width: 350px;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+.btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+.modal.active {
+  display: block;
 }
 
 /* main-comp style */
@@ -525,6 +561,8 @@ header {
 
 .populer {
   top: 82px;
+  width: 200px;
+  margin-bottom: 61px;
 }
 
 .populer-item:hover {
@@ -533,7 +571,7 @@ header {
 }
 
 .ent-news {
-  top: 375px;
+  top: 420px;
   width: 200px;
 }
 

@@ -1,12 +1,12 @@
-import {authService} from "./firebase.js";
+import { authService } from './firebase.js';
 
 const routes = {
-  404: "/pages/404.html",
-  "/": "/pages/home.html",
+  404: '/pages/404.html',
+  '/': '/pages/home.html',
 };
 
 export const handleLocation = async () => {
-  let path = window.location.hash.replace("#", "");
+  let path = window.location.hash.replace('#', '');
   const pathName = window.location.pathname;
 
   // Live Server를 index.html에서 오픈할 경우
@@ -14,9 +14,9 @@ export const handleLocation = async () => {
   //     window.history.pushState({}, "", "/");
   //   }
   if (path.length == 0) {
-    path = "/";
+    path = '/';
   }
   const route = routes[path] || routes[404];
   const html = await fetch(route).then((data) => data.text());
-  document.getElementById("root").innerHTML = html;
+  document.getElementById('root').innerHTML = html;
 };

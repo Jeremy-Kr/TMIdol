@@ -1,6 +1,6 @@
 import { authService } from './firebase.js';
 import { handleLocation } from './router.js';
-import { getSearchList, autoComp } from './search.js';
+import { getSearchList, autoComp, listData } from './search.js';
 import { getPopularList, sendMain } from './popularpost.js';
 import { postInput, postCreateBtn } from './postcreat.js';
 import { onFileChange } from './utils.js';
@@ -34,14 +34,17 @@ document.addEventListener('DOMContentLoaded', function () {
   authService.onAuthStateChanged(async (user) => {
     // Firebase 연결되면 화면 표시
     await handleLocation();
-    const hash = window.location.hash;
     if (user) {
       postCreateBtn();
       await getPostsAndDisplay();
       currentUserProfileComp();
+      listData();
+      getPopularList();
     } else {
       singUpAndLoginComp();
       getPostsAndDisplay();
+      listData();
+      getPopularList();
     }
   });
 });
