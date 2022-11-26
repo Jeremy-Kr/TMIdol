@@ -160,6 +160,8 @@ export async function like(event) {
         .closest('.likes')
         .querySelector('.redHeart')
         .classList.remove('hidden');
+
+      // todo: 좋아요를 눌렀을 때, 새로운 풍선을 하나 넣어주면서, 위로 슬금슬금 올라가게 만들기?
     }
     getPopularList();
   } else {

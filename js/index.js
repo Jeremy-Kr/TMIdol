@@ -3,7 +3,6 @@ import { handleLocation } from './router.js';
 import { getSearchList, autoComp, listData } from './search.js';
 import { getPopularList, sendMain } from './popularpost.js';
 import { postInput, postCreateBtn } from './postcreat.js';
-import { onFileChange } from './utils.js';
 import {
   openLoginModal,
   closeLoginModal,
@@ -68,9 +67,6 @@ window.like = like;
 window.postInput = postInput;
 window.deletePost = deletePost;
 window.updatePostPopup = updatePostPopup;
-
-// 사진 업로드 기능
-window.onFileChange = onFileChange;
 
 // modal
 window.openLoginModal = openLoginModal;
