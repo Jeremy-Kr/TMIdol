@@ -30,11 +30,11 @@ import {
 export function singUpAndLoginComp() {
   const leftComp = document.querySelector('.left-comp');
   leftComp.innerHTML = '';
-  const temp = `<div class="buttons">
-                  <button href="#" onclick="openLoginModal()">로그인</button>
-                  <button href="#" onclick="openSignUpModal()">회원가입</button>
-                </div>
-                <p>로그인을 통해 아이돌 팬들과 소통해보세요!</p>`;
+  const temp = `<p class="login-notice">TMIDOL을 통해 전세계에 있는 <br>아이돌 팬들과 소통해보세요!</p>
+                <div class="buttons">
+                  <button href="#" onclick="openLoginModal()">LOGIN</button>
+                  <button href="#" onclick="openSignUpModal()">SIGN UP</button>
+                </div>`;
   const signPanel = document.createElement('div');
   signPanel.className = 'sign-panel';
   signPanel.innerHTML = temp;
@@ -93,8 +93,8 @@ export function currentUserProfileComp() {
   </div>
 </div>
 <div class="profile-elements">
-  <button class="profile-elements-button" onclick="myPosts(event)">내 글 모아보기</button>
-  <button class="profile-elements-button" onclick="logout(event)">로그아웃</button>
+  <button class="profile-elements-button" onclick="myPosts(event)">My Posts</button>
+  <button class="profile-elements-button" onclick="logout(event)">Logout</button>
 </div>`;
 
   leftComp.innerHTML = temp;
@@ -124,7 +124,7 @@ export async function myPosts(event) {
   postList(getPostsData);
 
   const myPostTitle = document.createElement('div');
-  myPostTitle.innerText = '내 글 모아보기';
+  myPostTitle.innerText = '📂  My Posts  📂';
   myPostTitle.className = 'my-post-title';
 
   if (getPostsData.length === 0) {

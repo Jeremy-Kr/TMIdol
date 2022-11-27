@@ -6,19 +6,36 @@
     <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
     <form id="form-login" method="post" enctype="multipart/form-data">
       <div>
-        <label for="login-email">e-mail :</label
-        ><input type="text" name="email" id="login-email" />
+        <input placeholder="E-mail" type="text" name="email" id="login-email" />
       </div>
       <div>
-        <label for="password">password :</label
-        ><input type="password" name="password" id="password" />
+        <input
+          placeholder="Password"
+          type="password"
+          name="password"
+          id="password"
+        />
       </div>
-      <button onclick="loginForm(); return false;">완료</button>
+      <button onclick="loginForm(); return false;">LOGIN</button>
       <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
     </form>
+    <div class="hr-sect">OR</div>
+
     <section class="socialBtns">
-      <button name="google" onclick="socialLogin(event)">Google Login</button>
-      <button name="github" onclick="socialLogin(event)">Github Login</button>
+      <img
+        name="google"
+        onclick="socialLogin(event)"
+        src="../assets/logo/google-icon.svg"
+        alt=""
+      />
+      <img
+        name="github"
+        onclick="socialLogin(event)"
+        src="../assets/logo/github-icon.svg"
+        alt=""
+      />
+      <!-- <button name="google" onclick="socialLogin(event)">Google Login</button>
+      <button name="github" onclick="socialLogin(event)">Github Login</button> -->
     </section>
   </div>
 </div>
@@ -31,30 +48,48 @@
     <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 submitsignup() 함수로 전달 (영주) -->
     <form id="form-signup" enctype="multipart/form-data">
       <div>
-        <label for="signup-email">e-mail :</label
-        ><input type="text" name="email" id="signup-email" />
+        <input
+          placeholder="E-mail"
+          type="text"
+          name="email"
+          id="signup-email"
+        />
       </div>
       <div>
-        <label for="nickname">Nickname :</label
-        ><input type="text" name="nickname" id="nickname" />
+        <input
+          placeholder="Nickname"
+          type="text"
+          name="nickname"
+          id="nickname"
+        />
       </div>
       <div>
-        <label for="signup-password">password :</label
-        ><input type="password" name="password" id="signup-password" />
+        <input
+          placeholder="Password"
+          type="password"
+          name="password"
+          id="signup-password"
+        />
       </div>
       <div>
-        <label for="confirm-password">confirm password :</label
-        ><input type="password" name="confirmPassword" id="confirm-password" />
+        <input placeholder="Confirm Password" id="confirm-password" />
       </div>
       <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
-      <button onclick="submitSignUp(); return false;">가입</button>
+      <button onclick="submitSignUp(); return false;">Sign Up</button>
     </form>
   </div>
 </div>
 
 <header class="header">
   <div class="header-grid">
-    <a href="/" onclick="route(event)"><span class="title">TMI-DOL</span></a>
+    <a href="/" onclick="route(event)"
+      ><span class="title">
+        <img
+          class="tmidol-logo"
+          src="../assets/logo/logo-40.png"
+          alt=""
+        /> </span
+    ></a>
     <div class="search">
       <form onsubmit="getSearchList(event)">
         <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
