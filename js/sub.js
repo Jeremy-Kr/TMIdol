@@ -216,6 +216,22 @@ export function closeSignUpModal() {
   let modal = document.getElementById('modal-notice-signup');
   modal.classList.remove('active');
 }
+export function openCorrectionModal() {
+  let modal = document.getElementById('modal-notice-correction');
+  modal.classList.add('active');
+}
+export function closeCorrectionModal() {
+  let modal = document.getElementById('modal-notice-correction');
+  modal.classList.remove('active');
+}
+export function openImgModal() {
+  let modal = document.getElementById('modal-notice-img');
+  modal.classList.add('active');
+}
+export function closeImgModal() {
+  let modal = document.getElementById('modal-notice-img');
+  modal.classList.remove('active');
+}
 
 // home.html에 있는 회원가입 form에서 받아온 정보들 넣음 (영주)
 export function submitSignUp() {
@@ -226,6 +242,7 @@ export function submitSignUp() {
   const confirmPassword =
     document.getElementById('form-signup').confirmPassword.value;
   if (password === confirmPassword) {
+    if (password.length < 6) return alert('비밀번호는 6자 이상이여야 합니다.');
     if (!email) return alert('이메일은 반드시 입력되어야 합니다.');
     if (matchedEmail === null) return alert('이메일 형식에 맞게 입력해 주세요');
     if (!nickname) return alert('닉네임은 반드시 입력되어야 합니다.');
@@ -239,9 +256,11 @@ export function submitSignUp() {
         localStorage.setItem('userUID', userUID);
         alert('회원가입 성공!');
       })
+      .then(userInfo())
       .catch((error) => {
         alert('다시 시도해주세요');
         const errorMessage = error.message;
+        console.log(errorMessage);
         // 회원가입 실패 시
       });
   } else {
@@ -267,6 +286,7 @@ export function loginForm() {
       // 로그인 모달 창 닫힘 (영주)
       closeLoginModal();
     })
+    .then(userInfo())
     .catch((error) => {
       // 로그인 실패 시
       alert('이메일 또는 비밀번호를 다시 입력 해 주세요.');

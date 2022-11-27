@@ -1,95 +1,94 @@
 <!-- 2 ~ 14번 로그인 모달 (영주)-->
 <div id="modal-notice-login" class="modal">
   <div class="modal-content">
-    <span class="btn-close" onclick="closeLoginModal()">x</span>
+    <a href="#" class="btn-close" onclick="closeLoginModal()">x</a>
     <h2>LOGIN</h2>
     <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
-    <form id="form-login" method="post" enctype="multipart/form-data">
+    <form id="form-login" enctype="multipart/form-data">
       <div>
-        <input placeholder="E-mail" type="text" name="email" id="login-email" />
+        <label for="login-email">e-mail :</label
+        ><input type="text" name="email" id="login-email" />
       </div>
       <div>
-        <input
-          placeholder="Password"
-          type="password"
-          name="password"
-          id="password"
-        />
+        <label for="password">password :</label
+        ><input type="password" name="password" id="password" />
       </div>
-      <button onclick="loginForm(); return false;">LOGIN</button>
+      <button onclick="loginForm(); return false;">완료</button>
       <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
     </form>
-    <div class="hr-sect">OR</div>
-
-    <section class="socialBtns">
-      <img
-        name="google"
-        onclick="socialLogin(event)"
-        src="../assets/logo/google-icon.svg"
-        alt=""
-      />
-      <img
-        name="github"
-        onclick="socialLogin(event)"
-        src="../assets/logo/github-icon.svg"
-        alt=""
-      />
-      <!-- <button name="google" onclick="socialLogin(event)">Google Login</button>
-      <button name="github" onclick="socialLogin(event)">Github Login</button> -->
-    </section>
   </div>
 </div>
 
 <!-- 17 ~ 41번 회원가입 모달 (영주)-->
 <div id="modal-notice-signup" class="modal">
   <div class="modal-content">
-    <span class="btn-close" onclick="closeSignUpModal()">x</span>
+    <a href="#" class="btn-close" onclick="closeSignUpModal()">x</a>
     <h2>SIGN-UP</h2>
     <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 submitsignup() 함수로 전달 (영주) -->
     <form id="form-signup" enctype="multipart/form-data">
       <div>
-        <input
-          placeholder="E-mail"
-          type="text"
-          name="email"
-          id="signup-email"
-        />
+        <label for="signup-email">e-mail :</label
+        ><input type="text" name="email" id="signup-email" />
       </div>
       <div>
-        <input
-          placeholder="Nickname"
-          type="text"
-          name="nickname"
-          id="nickname"
-        />
+        <label for="nickname">Nickname :</label
+        ><input type="text" name="nickname" id="nickname" />
       </div>
       <div>
-        <input
-          placeholder="Password"
-          type="password"
-          name="password"
-          id="signup-password"
-        />
+        <label for="signup-password">password :</label
+        ><input type="password" name="password" id="signup-password" />
       </div>
       <div>
-        <input placeholder="Confirm Password" id="confirm-password" />
+        <label for="confirm-password">confirm password :</label
+        ><input type="password" name="confirmPassword" id="confirm-password" />
       </div>
       <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
-      <button onclick="submitSignUp(); return false;">Sign Up</button>
+      <button onclick="submitSignUp(); return false;">가입</button>
+    </form>
+  </div>
+</div>
+
+<!-- 51 ~ 70번 프로필 수정 모달 (영주)-->
+<div id="modal-notice-correction" class="modal">
+  <div class="modal-content">
+    <a href="#" class="btn-close" onclick="closeCorrectionModal()">x</a>
+    <h2>프로필 이미지 수정</h2>
+    <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
+    <form id="form-correction" enctype="multipart/form-data">
+      <div>
+        <label for="correction-nickname">New nickname :</label
+        ><input type="text" name="newnickname" id="newnickname" />
+      </div>
+      <div>
+        <label for="correction-password">New password :</label
+        ><input type="password" name="newPassword" id="new-password" />
+      </div>
+      <button onclick="loginForm(); return false;">완료</button>
+      <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
+    </form>
+  </div>
+</div>
+
+<!--  ~ 번 이미지 수정 모달 (영주)-->
+<div id="modal-notice-img" class="modal">
+  <div class="modal-content">
+    <a href="#" class="btn-close" onclick="closeImgModal()">x</a>
+    <h2>프로필 수정</h2>
+    <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
+    <form id="image-correction" enctype="multipart/form-data">
+      <div>
+        <label for="correction-image">New image :</label
+        ><input type="file" name="newimage" id="newimage" />
+      </div>
+      <button onclick="loginForm(); return false;">완료</button>
+      <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
     </form>
   </div>
 </div>
 
 <header class="header">
   <div class="header-grid">
-    <a href="/" onclick="route(event)"
-      ><span class="title">
-        <img
-          class="tmidol-logo"
-          src="../assets/logo/logo-40.png"
-          alt=""
-        /> </span
-    ></a>
+    <a href="/" onclick="route(event)"><span class="title">TMI-DOL</span></a>
     <div class="search">
       <form onsubmit="getSearchList(event)">
         <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -114,26 +113,43 @@
 </header>
 
 <div class="grid-container">
-  <aside class="left-comp"></aside>
+  <aside class="left-comp">
+    <div class="sign-panel">
+      <div class="buttons-login-signup">
+        <button href="#" onclick="openLoginModal()">로그인</button>
+        <button href="#" onclick="openSignUpModal()">회원가입</button>
+      </div>
+      <p>로그인을 통해 아이돌 팬들과 소통해보세요!</p>
+    </div>
+    <div class="sign-panel2"></div>
+  </aside>
   <main class="main-comp">
-    <section class="artist-info"></section>
+    <div class="post-create">
+      <div class="post-create-profile-img-containor">
+        <img
+          src="./assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg"
+          alt=""
+          class="post-create-profile-img"
+        />
+      </div>
+      <div id="post-input-container">
+        <button onclick="postInput(event)" id="post-create-text-button">
+          어떤 이야기를 공유하실건가요?
+        </button>
+      </div>
+    </div>
     <section class="post-container"></section>
   </main>
   <aside class="right-comp">
     <section class="populer">
       <p class="populer-title">실시간 인기글</p>
-      <ul class="populer-list"></ul>
-      <li
-        class="ent-news-item"
-        style="
-          background-color: black;
-          color: white;
-          border-radius: 40px;
-          text-align: center;
-        "
-      >
-        불러오는 중입니다.......
-      </li>
+      <ul class="populer-list">
+        <li class="populer-item">1 Lorem ipsum</li>
+        <li class="populer-item">2 Lorem ipsum</li>
+        <li class="populer-item">3 Lorem ipsum</li>
+        <li class="populer-item">4 Lorem ipsum</li>
+        <li class="populer-item">5 Lorem ipsum</li>
+      </ul>
     </section>
     <section class="ent-news">
       <p class="ent-news-title">실시간 연예뉴스</p>
