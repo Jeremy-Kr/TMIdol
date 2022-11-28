@@ -169,6 +169,8 @@ async function postSubmit(event) {
     document.getElementById('post-input-container').innerHTML = postPopupBtn;
 
     getPostsAndDisplay();
+    const info = document.querySelector('.artist-info');
+    info.innerHTML = '';
   } catch (error) {
     alert(error);
     console.log('error in addDoc:', error);

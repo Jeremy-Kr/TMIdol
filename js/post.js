@@ -45,6 +45,8 @@ export async function deletePost(event) {
       }
       await deleteDoc(doc(dbService, 'posts', postId));
       getPostsAndDisplay();
+      const info = document.querySelector('.artist-info');
+      info.innerHTML = '';
     } catch (error) {
       console.log(error);
     }
@@ -52,10 +54,12 @@ export async function deletePost(event) {
 }
 
 export function updatePostPopup(event) {
-  const postTitleContainer =
-    event.target.parentNode.parentNode.parentNode.children[1].children[0];
-  const postTextContainer =
-    event.target.parentNode.parentNode.parentNode.children[1].children[3];
+  const postTitleContainer = event.target
+    .closest('.posts')
+    .querySelector('.post-main-title');
+  const postTextContainer = event.target
+    .closest('.posts')
+    .querySelector('.post-main-text');
   const postTitleValue = postTitleContainer.children[0].innerText;
   const postTextValue = postTextContainer.children[0].innerText;
 
@@ -98,6 +102,8 @@ export async function updatePost() {
       postText: postTextUpdateValue,
     });
     getPostsAndDisplay();
+    const info = document.querySelector('.artist-info');
+    info.innerHTML = '';
   } catch (error) {
     console.log(error);
   }

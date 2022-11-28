@@ -90,10 +90,7 @@ export function postList(getPostsData) {
                         <div class="post-header">
                         <div class="post-header-left">
                           <img
-                          src="${
-                            userImage ||
-                            './assets/imgs/8C60C9E7-0049-44F2-A97F-CDB5E868B1E9_1_105_c.jpeg'
-                          }"
+                          src="${userImage || './assets/imgs/nullimage.png'}"
                           alt=""
                           class="profile-img"
                           />

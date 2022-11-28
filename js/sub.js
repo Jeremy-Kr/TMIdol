@@ -2,7 +2,7 @@ import { emailRegex } from './utils.js';
 import { storageService, dbService, authService } from './firebase.js';
 import { postList } from './postList.js';
 import { postCreateBtn } from './postcreat.js';
-
+import { getPostsAndDisplay } from './post.js';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -25,6 +25,9 @@ import {
   query,
   getDocs,
   where,
+  updateDoc,
+  runTransaction,
+  doc,
 } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js';
 
 export function singUpAndLoginComp() {
@@ -195,6 +198,25 @@ export async function profileImageUpload(event) {
       document.querySelector('.main-comp').childNodes[0].remove();
       postCreateBtn();
     })
+    .then(async () => {
+      const uidDocRef = query(
+        collection(dbService, 'posts'),
+        where('userUID', '==', authService.currentUser.uid)
+      );
+      try {
+        const querySnapshot = await getDocs(uidDocRef);
+        const updates = [];
+        querySnapshot.forEach((doc) => {
+          updates.push(doc);
+          updateDoc(uidDocRef, {
+            userImage: userProfileImgURL,
+          });
+        });
+        console.log(updates);
+      } catch (e) {
+        console.log(e);
+      }
+    })
     .catch((e) => {
       console.log(e);
     });
@@ -231,13 +253,19 @@ export function submitSignUp() {
     if (!nickname) return alert('닉네임은 반드시 입력되어야 합니다.');
     if (password.length < 6) return alert('비밀번호는 6자 이상이여야 합니다.');
     if (!password) return alert('비밀번호는 반드시 입력되어야 합니다.');
-    createUserWithEmailAndPassword(authService, email, password, nickname)
-      .then((userCredential) => {
+    createUserWithEmailAndPassword(authService, email, password)
+      .then(async (userCredential) => {
         // 회원가입 성공 및 로그인 성공한 경우
         const user = userCredential.user;
         const userUID = user.uid;
         localStorage.setItem('userUID', userUID);
         alert('회원가입 성공!');
+      })
+      .then(async () => {
+        const user = authService.currentUser;
+        await updateProfile(user, {
+          displayName: nickname ? nickname : '익명 사용자',
+        });
       })
       .catch((error) => {
         alert('다시 시도해주세요');

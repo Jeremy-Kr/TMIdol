@@ -707,6 +707,7 @@ header {
   border-radius: 2rem;
   background-color: #fff;
   border: 0.5px solid #6e6fb8;
+  box-shadow: 0 0.125rem 0.25rem 0 #6e6fb880;
 }
 
 .post-main-title {
