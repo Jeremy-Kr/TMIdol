@@ -1,0 +1,159 @@
+<!-- 2 ~ 14번 로그인 모달 (영주)-->
+<div id="modal-notice-login" class="modal">
+  <div class="modal-content">
+    <span class="btn-close" onclick="closeLoginModal()">x</span>
+    <h2>LOGIN</h2>
+    <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 loginform() 함수로 전달 (영주) -->
+    <form id="form-login" method="post" enctype="multipart/form-data">
+      <div>
+        <input placeholder="E-mail" type="text" name="email" id="login-email" />
+      </div>
+      <div>
+        <input
+          placeholder="Password"
+          type="password"
+          name="password"
+          id="password"
+        />
+      </div>
+      <button onclick="loginForm(); return false;">LOGIN</button>
+      <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
+    </form>
+    <div class="hr-sect">OR</div>
+
+    <section class="socialBtns">
+      <img
+        name="google"
+        onclick="socialLogin(event)"
+        src="../assets/logo/google-icon.svg"
+        alt=""
+      />
+      <img
+        name="github"
+        onclick="socialLogin(event)"
+        src="../assets/logo/github-icon.svg"
+        alt=""
+      />
+      <!-- <button name="google" onclick="socialLogin(event)">Google Login</button>
+      <button name="github" onclick="socialLogin(event)">Github Login</button> -->
+    </section>
+  </div>
+</div>
+
+<!-- 17 ~ 41번 회원가입 모달 (영주)-->
+<div id="modal-notice-signup" class="modal">
+  <div class="modal-content">
+    <span class="btn-close" onclick="closeSignUpModal()">x</span>
+    <h2>SIGN-UP</h2>
+    <!-- 가입 정보를 form으로 한번에 묶어서 데이터를 input하고 그 값을 받아 sub.js에 있는 submitsignup() 함수로 전달 (영주) -->
+    <form id="form-signup" enctype="multipart/form-data">
+      <div>
+        <input
+          placeholder="E-mail"
+          type="text"
+          name="email"
+          id="signup-email"
+        />
+      </div>
+      <div>
+        <input
+          placeholder="Nickname"
+          type="text"
+          name="nickname"
+          id="nickname"
+        />
+      </div>
+      <div>
+        <input
+          placeholder="Password"
+          type="password"
+          name="password"
+          id="signup-password"
+        />
+      </div>
+      <div>
+        <input
+          placeholder="Confirm Password"
+          type="password"
+          id="confirm-password"
+          name="confirmPassword"
+        />
+      </div>
+      <!-- 페이지 이동을 막기 위해서 button 태그에 return false 작성 (영주)-->
+      <button onclick="submitSignUp(); return false;">Sign Up</button>
+    </form>
+  </div>
+</div>
+
+<header class="header">
+  <div class="header-grid">
+    <a href="/" onclick="route(event)"
+      ><span class="title">
+        <img
+          class="tmidol-logo"
+          src="../assets/logo/logo-40.png"
+          alt=""
+        /> </span
+    ></a>
+    <div class="search">
+      <form onsubmit="getSearchList(event)">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.89336 11.7948C7.93159 11.7948 8.88933 11.4648 9.68611 10.9175L12.5433 13.7746C12.6962 13.9276 12.8974 14 13.1066 14C13.5573 14 13.8873 13.6539 13.8873 13.2113C13.8873 13.002 13.8149 12.7928 13.662 12.6479L10.829 9.80684C11.4326 8.98592 11.7867 7.97988 11.7867 6.89336C11.7867 4.19718 9.58954 2 6.89336 2C4.20524 2 2 4.18914 2 6.89336C2 9.58954 4.19718 11.7948 6.89336 11.7948ZM6.89336 10.5956C4.87324 10.5956 3.1992 8.92153 3.1992 6.89336C3.1992 4.87325 4.87324 3.1992 6.89336 3.1992C8.92152 3.1992 10.5875 4.87325 10.5875 6.89336C10.5875 8.92153 8.92152 10.5956 6.89336 10.5956Z"
+          ></path>
+        </svg>
+        <input
+          oninput="autoComp()"
+          id="search-value"
+          class="search_input"
+          type="text"
+          placeholder="좋아하는 아티스트를 검색해보세요!"
+          style="border: none"
+        />
+      </form>
+      <div class="rel_search">
+        <ul class="pop_rel_keywords"></ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="grid-container">
+  <aside class="left-comp"></aside>
+  <main class="main-comp">
+    <section class="artist-info"></section>
+    <section class="post-container"></section>
+  </main>
+  <aside class="right-comp">
+    <section class="populer">
+      <p class="populer-title">실시간 인기글</p>
+      <ul class="populer-list"></ul>
+      <li
+        class="ent-news-item"
+        style="
+          background-color: black;
+          color: white;
+          border-radius: 40px;
+          text-align: center;
+        "
+      >
+        불러오는 중입니다.......
+      </li>
+    </section>
+    <section class="ent-news">
+      <p class="ent-news-title">실시간 연예뉴스</p>
+      <ul class="ent-news-list"></ul>
+      <li
+        class="ent-news-item"
+        style="
+          background-color: black;
+          color: white;
+          border-radius: 40px;
+          text-align: center;
+        "
+      >
+        불러오는 중입니다.......
+      </li>
+    </section>
+  </aside>
+</div>
